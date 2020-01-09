@@ -23,3 +23,17 @@ Ainda em `routes.js`, utilizamos os componentes do React Router DOM para configu
 O `BrowserRouter`, componente que permite utilizar a navegação através da URL do browser, foi configurado no `App.js` ao invés do `routes.js`, já que, além do conteúdo da navegação, também existirá o conteúdo do cabeçalho (componente `Header`) que será fixo entre as páginas e precisará ter acesso as propriedades da navegação (por isso necessita estar dentro do componente `BrowserRouter`).
 
 ---
+
+## Instalação do Styled Components e criação da estilização global
+
+Para trabalhar com o CSS com recursos adicionais, utilizamos o Styled Components:
+
+```
+yarn add styled-components
+```
+
+Criamos o arquivo `src/styles/global.js`, importamos a fonte [Roboto do Google Fonts][https://fonts.google.com/specimen/roboto?selection.family=roboto] no começo do CSS e definimos as estilizações globais. Também utilizamos uma imagem SVG (pasta `assets`) como fundo de toda a aplicação.
+
+Incluímos a estilização global no `App.js`.
+
+---
