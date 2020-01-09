@@ -6,6 +6,7 @@ export const Container = styled.header`
   margin: 20px 0;
   justify-content: space-between;
   align-items: center;
+  min-width: 264px;
   @media screen and (max-width: 480px) {
     flex-direction: column;
   }
