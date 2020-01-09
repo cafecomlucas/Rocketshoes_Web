@@ -37,3 +37,19 @@ Criamos o arquivo `src/styles/global.js`, importamos a fonte [Roboto do Google F
 Incluímos a estilização global no `App.js`.
 
 ---
+
+## Criando o componente de cabeçalho com a estrutura de elementos e a estilização
+
+Instalamos o React Icons para utilização de um ícone de carrinho do Material Design.
+
+```
+yarn add react-icons
+```
+
+Criamos a pasta `components` para guardar qualquer tipo de componente que não é uma página inteira.
+
+Dentro da pasta `components` criamos o componente `Header` em `Header/index.js` com a estrutura de elementos, links, importação do logo e importação do ícone de carrinho. Em `Header/styles.js` criamos os componentes estilizados que são importados e aplicados na estrutura.
+
+Incluímos o componente `Header` no `App.js`.
+
+---
