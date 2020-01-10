@@ -69,3 +69,43 @@ Criamos a estrutura do componente `Cart` no arquivo `index.js`, onde definimos u
 Criamos também a estilização do componente `Cart` no arquivo `styles.js`, onde definimos a estilização da tabela e do rodapé, além de definir a responsividade através de media queries (essa parte não estava nos requisitos iniciais e foi feita como um extra).
 
 ---
+
+## Configuração do Back-end que serve uma REST API (fake)
+
+É possível utilizar um Back-end que serve uma REST API fake enquanto não temos acesso a API real, dessa maneira, quando a migração pra API real acontecer poucas modificações serão necessárias.
+
+Utilizamos a biblioteca [json-server](https://github.com/typicode/json-server), que após ser instalada globalmente, permite servir uma REST API informando apenas um arquivo JSON com os dados a serem servidos.
+
+```bash
+yarn global add json-server
+```
+
+(`yarn add json-server -D` para instalação local)
+
+Baixamos o arquivo `server.json` com os dados da aplicação (produtos na "tabela" `products`, quantidade em estoque na "tabela" `stock`) e em um novo terminal inicializamos o servidor da REST API na porta 3333 (já que a porta 3000 já está sendo utilizada pela aplicação Front-End):
+
+```bash
+json-server server.json -p 3333
+```
+
+(`yarn json-server ...` no caso de módulo local)
+
+(a opção `-w` pode ser incluída para observar alterações nos arquivos e reinicializar o servidor quando necessário)
+
+Após inicialização, as rotas [localhost:3333/products](http://localhost:3333/products) e [localhost:3333/stock](http://localhost:3333/stock) já funcionam ao acessá-los pelo browser.
+
+Com essa biblioteca é possível realizar qualquer operação (Create, Read, Update, Delete) como se fosse realmente uma API real. É recomendada apenas para no ambiente de desenvolvimento.
+
+---
+
+## Instalação do Axios para buscar dados na REST API
+
+Instalamos o serviço `axios` para poder buscar os dados da API configurada:
+
+```bash
+yarn add axios
+```
+
+Definimos as configurações do serviço no arquivo `services/api`.
+
+---
