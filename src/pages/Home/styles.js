@@ -17,9 +17,14 @@ export const ProductList = styled.ul`
     padding: 20px;
     border-radius: 4px;
     min-width: 122px;
+    justify-content: flex-end;
     > img {
+      background: #f7f7f7;
+      min-width: 221px;
+      min-height: 221px;
       align-self: center;
       width: 100%;
+      margin-bottom: auto;
     }
     > strong {
       font-size: 16px;
@@ -34,6 +39,10 @@ export const ProductList = styled.ul`
       color: #000;
     }
     @media screen and (max-width: 880px) {
+      img {
+        min-width: 122px;
+        min-height: 122px;
+      }
       > strong {
         font-size: 14px;
       }
@@ -43,7 +52,6 @@ export const ProductList = styled.ul`
     }
 
     button {
-      margin-top: auto;
       display: flex;
       background: #7159c1;
       color: #fff;

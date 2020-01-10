@@ -11,7 +11,7 @@ export default function Home() {
           src="https://static.netshoes.com.br/produtos/tenis-caminhada-detalhes-em-couro-masculino/06/E74-0492-006/E74-0492-006_detalhe2.jpg?ims=326x"
           alt="Tênis"
         />
-        <strong>Tênis maneiro</strong>
+        <strong>Tênis maneiro maneiro</strong>
         <span>R$ 139,90</span>
 
         <button type="button">
