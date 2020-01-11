@@ -109,3 +109,17 @@ yarn add axios
 Definimos as configurações do serviço no arquivo `services/api`.
 
 ---
+
+## Home | Buscando dados na API e atualizando estrutura
+
+Modificamos o componente `Home` declarando-o como classe ao invés de função para utilizarmos o estado e os métodos do ciclo de vida do componente.
+
+Criamos a propriedade do estado `products` para guardar todos os produtos. Criamos também o método `componentDidMount` para preencher essa nova propriedade com os dados recebidos da API.
+
+Também foi necessário formatar o preço de cada produto de acordo com a localização, para isso criamos a pasta `src/util` (por organização, para que os arquivos criados nela possam ser utilizados em qualquer parte da aplicação), e nela criamos o arquivo `format.js`. No arquivo utilizamos a classe nativa de intercionalização do JavaScript para formatar números do tipo preço e exportamos a função `format` renomeada para `formatPrice`.
+
+Modificamos o componente `Home` para importar a função `formatPrice` e utilizamos na criação de um novo campo com o preço formatado. A formatação do campo foi feita logo após busca dos dados da API ao invés de ser feita dentro do método `render`, pois assim formatamos os dados apenas uma vez (ao carregar o componente) ao invés de várias vezes (ao renderizar cada `<li>`) - quando possível é sempre recomendável fazer qualquer tipo de formatação apenas uma vez e fora do método `render` por questões de performance.
+
+Por enquanto, a quantidade de itens no carrinho permanece estática.
+
+---
