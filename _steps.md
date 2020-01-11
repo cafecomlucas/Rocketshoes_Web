@@ -123,3 +123,91 @@ Modificamos o componente `Home` para importar a função `formatPrice` e utiliza
 Por enquanto, a quantidade de itens no carrinho permanece estática.
 
 ---
+
+## Arquitetura Flux com o Redux - Documentação dos conceitos
+
+### O que é Redux?
+
+- Biblioteca independente (pode ser usada com o Angular, React ou mesmo com JavaScript puro) que implementa Arquitetura Flux (que é uma forma de comunicação entre vários elementos em tela);
+- Utilizado para controle de estados globais;
+- Quando utilizar o Redux?
+  -- Meu estado tem mais de um dono? Ou seja, ele é utilizado por mais de um componente?
+  -- Meu estado é manipulado por mais de um componente? Em um e-commerce, por exemplo, um carrinho de compras pode exibir no componente cabeçalho o dado da quantidade de itens adicionados, baseado na adição feita em um outro componente que apenas lista os produtos e possui um botão de adicionar em cada um deles.
+  -- As ações do usuário causam efeitos colaterais nos dados? Por exemplo, ao adicionar um produto ao carrinho estando dentro do componente de listagem de produtos, pode exibir uma mensagem em outro componente ou afetar o dado com a quantidade de itens adicionados utilizada em um componente de cabeçalho ou rodapé.
+
+Exemplos: Carrinho de compras, dados do usuário, player de música, etc;
+
+### Artuitetura Flux
+
+Cada biblioteca Front-End possui nomes diferentes ao se referir a essa arquitetura. Pelo contexto do React, utilizaremos os nomes do Redux dentro do React.
+
+### Fluxo da arquitetura
+
+Catálogo de produtos [botão adicionar ao carrinho] => ACTION (objeto) => REDUX STORE (com vários REDUCERS dentro) => REDUCER ADD (faz a alteração) => Nova renderização
+
+Carrinho [botão de atualizar quantidade] => ACTION (objeto) => REDUX STORE (com vários REDUCERS dentro) => REDUCER UPDATE (faz a alteração) => Nova renderização
+
+#### Descrição de cada item
+
+ACTION: Objeto com a informação da ação disparada e qualquer informação adicional (dados a serem adicionados, por exemplo). O disparo de uma ACTION é feito com base em algum evento (carregamento da página, clique no botão, etc). Exemplo:
+
+```js
+{
+  type: "ADD_TO_CART",
+  product: {...}
+}
+```
+
+REDUX STORE: Container do estado global, guarda todos os REDUCERS.
+
+REDUCER: Função responsável por um pedaço do estado global que ouve as ACTIONS e manipula uma propriedade do estado específica. Por exemplo: REDUCER CART, REDUCER USER, REDUCER PRODUCTS, etc. Cada REDUCER manipula sua respectiva propriedade, quando isso é feito o Redux sinaliza todos os componentes que estão ouvindo alterações e utilizam essa propriedade do estado (renderizando o componente novamente).
+
+#### Princípios
+
+- Toda ACTION deve possuir um `type` (`ADD_TO_CART`, `REMOVE_FROM_CART`, etc). Todo `type` é unico em toda a aplicação.
+- Uma vez definido que uma propriedade do estado será global, ela só deve ser acessada ou manipulada através do Redux: O estado do Redux torna-se o seu único ponto de acesso. Não é uma boa prática, por exemplo, ter uma propriedade de estado do Redux e uma propriedade de estado React local ao mesmo tempo (duplicidade) quando elas se referem a uma mesma entidade;
+- Não podemos mutar o estado do Redux sem uma ACTION. Assim como os estados do React locais, os estados do Redux também são imutáveis, ou seja, não é possível alterar um estado diretamente.
+- As ACTIONS e REDUCERS são funções puras e não lidam com side-effects (efeitos colaterais) assíncronos, ou seja, elas não fazem chamadas a API, não lidam com bancos de dados ou qualquer outra atividade assíncrona. Portanto, ao chamar essas funções puras com os mesmos parâmetros, o resultado esperado é sempre o mesmo, o que facilita a realização de testes unitários. (Para lidar com side-effects assíncronos podemos utilizar o Redux Saga)
+- Qualquer lógica síncrona para regras de negócio deve ficar no REDUCER e nunca na ACTION (como cálculos, formatações, etc), ou seja, caso necessário, apenas os REDUCERS mutam os dados.
+- **Nem toda aplicação precisa utilizar o Redux, o ideal é iniciar a aplicação sem ele e ir sentindo a necessidade de utilização (ou não utilização) com o passar do tempo. (A exceção é quando a aplicação já tem bem descrita quais informações serão globais com certeza)**
+
+### Exemplos do carrinho
+
+#### Exemplo 01
+
+\/ Propriedade do estado global Cart `[]` (Array vazio)
+\/ [Botão adicionar ao carrinho]
+\/ ACTION `{ type: 'ADD_TO_CART', procuct: { id: 1, title: 'Novo produto', price: 129.9, ...} }`
+\/ CART REDUCER (adiciona dado `formattedPrice` e adiciona ao estado) `[ { id:1, title: 'Novo produto', amount: 1, price: '129,9', formattedPrice: 'R$ 129,9',...} ]`
+\/ (Aviso do Redux aos componentes que estão ouvindo a propriedade Cart)
+Nova Renderização
+
+#### Exemplo 02
+
+\/ [Botão atualizar quantidade]
+\/ ACTION `{ type: 'UPDATE_AMOUNT', procuct: 1, amount: 5 }`
+\/ CART REDUCER (modifica o dado `amount` e atualiza o estado) `[ { id:1, title: 'Novo produto', amount: 5, ...} ]`
+\/ (Aviso do Redux aos componentes que estão ouvindo a propriedade Cart)
+Nova Renderização
+
+---
+
+## Configuração do Redux | Configuração do Redux Store e do primeiro REDUCER
+
+Para configurar o Redux, adicionamos o módulo `redux` e o módulo de integração do Redux com o React `react-redux`:
+
+```bash
+yarn add redux react-redux
+```
+
+Criamos a pasta `src/store` para guardar toda a configuração referente ao Redux Store. Dentro da pasta `store`, para organizar melhor, criamos a pasta `modules` para guardar todos os REDUCERS.
+
+Dentro da pasta `store/modules` criamos o arquivo `cart/reducer.js` e o arquivo `rootReducers.js`. O `cart/reducer.js` exporta uma função que por enquanto retorna um Array vazio (valor inicial da propriedade do estado Cart) e o `rootReducers.js` utiliza o método `combineReducers` do Redux para combinar todos os REDUCERS da aplicação (por enquanto só existe o CART REDUCER).
+
+Dentro da pasta `store`, criamos o arquivo `index.js`, que importa o método `createStore` do Redux, importa os REDUCERS de `modules/rootReducers.js` e exporta o Redux Store através do método `createStore` passando os REDUCERS como parâmetro (parâmetro obrigatório para funcionar).
+
+Apesar da organização adotada (fazendo a combinação de todos os REDUCERS), também seria perfeitamente possível passar qualquer função/REDUCER diretamente pro método `createStore`.
+
+Modificamos o `App.js`, importando o componente `Provider` do módulo React Redux, importando o Redux Store da pasta `store` e envolvendo toda a estrutura da aplicação com o componente `Provider` informando o `store` via propriedade. O `Provider` é o componente que efetivamente integra o Redux ao React, permitindo que toda a aplicação tenha acesso as propriedades de estado globais do Redux Store.
+
+---
