@@ -208,6 +208,42 @@ Dentro da pasta `store`, criamos o arquivo `index.js`, que importa o método `cr
 
 Apesar da organização adotada (fazendo a combinação de todos os REDUCERS), também seria perfeitamente possível passar qualquer função/REDUCER diretamente pro método `createStore`.
 
-Modificamos o `App.js`, importando o componente `Provider` do módulo React Redux, importando o Redux Store da pasta `store` e envolvendo toda a estrutura da aplicação com o componente `Provider` informando o `store` via propriedade. O `Provider` é o componente que efetivamente integra o Redux ao React, permitindo que toda a aplicação tenha acesso as propriedades de estado globais do Redux Store.
+Modificamos o `App.js`, importando o componente `Provider` do módulo React Redux, importando o Redux Store da pasta `store` e envolvendo toda a estrutura da aplicação com o componente `Provider` informando o `store` via propriedade. O `Provider` é um dos componentes que efetivamente integra o Redux ao React, permitindo que toda a aplicação tenha acesso as propriedades de estado globais do Redux Store.
+
+---
+
+## Adicionando produtos ao estado global Cart | Exibindo quantidade de produtos
+
+Para utilizar o Redux Store, além de utilizar o componente `Provider` como container, também precisamos integrar cada componente que lê ou modifica as propriedades de estado globais do Redux Store através do método `connect` do React Redux.
+
+O método `connect` do React Redux pode receber uma função no primeiro parâmetro, que tem o argumento `state` preenchida automaticamente pelo Redux contendo todo o estado global atual com todos os REDUCERS dentro dele (que foram preenchidos na inicialização do Redux no método `combineReducers`). Além disso, o método `connect` também é uma high-order function e retorna uma outra função, que chamamos em seguida, passando o componente do React que queremos integrar ao Redux. O Resultado final é um componente "React Redux", onde é possível ler algum dado do estado global do Redux Store ou acessar métodos do Redux (como o `dispatch`).
+
+### Home
+
+Modificamos o componente do React `Home`, para que a integração com o Redux seja feita antes da exportação. Ao final exportamos uma chamada ao método `connect` (sem parâmetros, pois nesse momento não precisamos ler nenhum dado, apenas modificar). E, na chamada da função retornada pelo `connect`, passamos o componente React `Home` como parâmetro.
+
+Com o componente React `Home` modificado para um componente React Redux, criamos o método `handleAddToCart` (que recebe o produto via parâmetro) e o associamos a cada botão de adicionar produto ao carrinho. No `handleAddToCart`, utilizamos o método `dispatch` (preenchido nas propriedades do componente pelo Redux) para disparar uma ACTION contendo o type `ADD_TO_CART` e o produto recebido via parâmetro.
+
+### Sobre REDUCERS
+
+Em uma aplicação com o Redux, todas as funções de REDUCER possuem dois argumentos preenchidos automaticamente pelo Redux, o `state`, com o valor do respectivo estado global atual (antes de uma possível modificação) e o `action`, com os dados que foram preenchidos ao chamar a função `dispatch`.
+
+Além disso, todos os REDUCERS ouvem todos os disparos de ACTIONS. Por essa razão, denro de cada REDUCER, nos casos de modificação, é necessário conferir a condição para modificar o dado da respectiva propriedade do estado global, ou, nos casos de leitura, apenas retornar a propriedade do estado global (o padrão, quando nenhuma condição for atendida). Essa condição é a verificação da propriedade `action.type`, através de um `switch`. Todos os REDUCERS seguem esse padrão.
+
+As funções de todos os REDUCERS são executadas internamente pelo Redux tanto ao executar um `dispatch` para disparar uma ACTION (nos casos de modificação do estado global do Redux Store) quanto nas chamadas do método `connect` com o primeiro argumento preenchido (nos casos de leitura do estado global do Redux Store).
+
+### Cart REDUCER
+
+Modificamos o CART REDUCER (`store/modules/cart`) para que o valor inicial do `state` seja um Array vazio `[]`. Através de um switch, também verificamos se o `action.type` é `ADD_TO_CART` e se a condição for atendida, retornamos um novo Array com o `state` atual + o novo produto informado na `action.product`. Se nenhuma condição for atendida, apenas retornamos o estado sem modificações.
+
+Neste ponto, um produto é adicionado ao estado Cart sempre que um clique é feito no botão de adicionar produto ao carrinho.
+
+### Header
+
+Para ler e exibir a quantidade de produtos adicionados ao carrinho, modificamos o componente do React `Header`, fazendo a integração dele com o Redux antes da exportação. Como nesse caso precisamos ler dados do estado global, na chamada do método `connect` passamos como primeiro argumento a função que retorna um objeto com as propriedades a serem utilizadas pelo componente `Header`. E, na chamada da segunda função retornada pelo `connect`, passamos o componente React `Header` como parâmetro.
+
+Dentro do componente `Header`, através do acesso as propriedades do componente, acessamos a propriedade `cartSize`, preenchida anteriormente na chamada do método `connect` e incluímos essa propriedade na estrutura para exibir a quantidade de produtos atuais no carrinho.
+
+Neste ponto, toda vez que um produto é adicionado ao carrinho, esse componente é avisado pelo Redux e renderizado novamente.
 
 ---
