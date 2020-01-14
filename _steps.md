@@ -284,3 +284,15 @@ Na aba "Timeline" da ferramenta Reactotron conseguimos ver os detalhes do dispar
 Na aba "State" da ferramenta Reactotron, em "Subscriptions" conseguimos acompanhar o valor atual de determinada propriedade global e em "Snapshots" é possível fazer um Backup de todo o estado ou reverter a aplicação para um Backup feito anteriormente.
 
 ---
+
+## Cart | Listando produtos adicionados ao carrinho na página cart
+
+No componente `Cart` utilizamos a função `connect` para transformá-lo em um componente React Redux antes da exportação.
+
+Nesse componente também será necessário utilizar dados do estado global, recendo os mesmos via propriedades, para isso criamos uma função chamada `mapStateToProps` que retorna os dados a serem utilizados na renderização do componente. Depois passamos essa função como primeiro argumento da função `connect` Esse padrão pode ser utilizado em qualquer componente que precise acessar o estado global do Redux Store.
+
+Modificamos a estrutura para percorrer o Array `cart` e criar uma `<tr>` com os dados para cada produto presente no carrinho.
+
+Neste ponto, para cada produto adicionado ao carrinho, exibimos a imagem, título, e o preço formatado. Falta exibir a quantidade, o subtotal, o total e implementar a remoção do produto do carrinho.
+
+---
