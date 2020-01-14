@@ -308,3 +308,15 @@ yarn add immer
 Modificamos o CART REDUCER para que agora ele utilize a função `produce` do `immer`. Para essa função passamos o estado atual no primeiro argumento. No segundo argumento passamos outra função com a variável draft (preenchida pelo immer). Modificamos o draft diretamente como se fosse a propriedade do estado (com o método push) e a função `produce` se encarrega de retornar a nova propriedade a ser armazenada no estado.
 
 ---
+
+## Cart REDUCER | Adicionando quantidade de produtos
+
+Modificamos o CART REDUCER para fazer uma verificação antes de adicionar um novo produto. Se o produto não existir no carrinho, ele é adicionado com a quantidade (`amount`) 1. Se o produto já existir no carrinho, a quantidade (`amount`) é incrementada para +1.
+
+(Como alteramos o argumento `draft`, o ESLint indicou erro, então alteramos o arquivo de configuração para desativar esse tipo de erro)
+
+Também modificamos o componente `Cart` para exibir a quantidade de itens dentro do campo input do tipo number.
+
+Neste ponto, ao acessar a página `Home` e adicionar um produto duas vezes, o valor que aparece no cabeçalho (com a quantidade de itens do carrinho) só muda uma vez, já que, a partir da segunda adição, o que muda é a propriedade do respectivo produto que guarda a quantidade e um novo item não é adicionado ao carrinho.
+
+---
