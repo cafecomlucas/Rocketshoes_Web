@@ -289,10 +289,22 @@ Na aba "State" da ferramenta Reactotron, em "Subscriptions" conseguimos acompanh
 
 No componente `Cart` utilizamos a função `connect` para transformá-lo em um componente React Redux antes da exportação.
 
-Nesse componente também será necessário utilizar dados do estado global, recendo os mesmos via propriedades, para isso criamos uma função chamada `mapStateToProps` que retorna os dados a serem utilizados na renderização do componente. Depois passamos essa função como primeiro argumento da função `connect` Esse padrão pode ser utilizado em qualquer componente que precise acessar o estado global do Redux Store.
+Nesse componente também será necessário utilizar dados do estado global, recendo os mesmos via propriedades, para isso criamos uma função chamada `mapStateToProps` que retorna os dados a serem utilizados na renderização do componente. Depois passamos essa função como primeiro argumento da função `connect`. Esse padrão pode ser utilizado em qualquer componente que precise acessar o estado global do Redux Store.
 
 Modificamos a estrutura para percorrer o Array `cart` e criar uma `<tr>` com os dados para cada produto presente no carrinho.
 
 Neste ponto, para cada produto adicionado ao carrinho, exibimos a imagem, título, e o preço formatado. Falta exibir a quantidade, o subtotal, o total e implementar a remoção do produto do carrinho.
+
+---
+
+## Instalando immer | Facilitando a manipulação de dados imutáveis
+
+Instalamos o [immer](https://immerjs.github.io/immer/docs/introduction), uma biblioteca que facilita a alteração de dados do estado. Ela permite que alterações diretas sejam feitas em uma cópia da propriedade do estado (draft), para depois comparar/unir com o estado original (current) e retornar uma nova cópia da propriedade alterada com o novo valor a ser armazenado no estado (next).
+
+```bash
+yarn add immer
+```
+
+Modificamos o CART REDUCER para que agora ele utilize a função `produce` do `immer`. Para essa função passamos o estado atual no primeiro argumento. No segundo argumento passamos outra função com a variável draft (preenchida pelo immer). Modificamos o draft diretamente como se fosse a propriedade do estado (com o método push) e a função `produce` se encarrega de retornar a nova propriedade a ser armazenada no estado.
 
 ---
