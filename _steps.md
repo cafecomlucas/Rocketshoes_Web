@@ -320,3 +320,13 @@ Também modificamos o componente `Cart` para exibir a quantidade de itens dentro
 Neste ponto, ao acessar a página `Home` e adicionar um produto duas vezes, o valor que aparece no cabeçalho (com a quantidade de itens do carrinho) só muda uma vez, já que, a partir da segunda adição, o que muda é a propriedade do respectivo produto que guarda a quantidade e um novo item não é adicionado ao carrinho.
 
 ---
+
+## Cart REDUCER | Removendo item da listagem do carrinho
+
+Adicionamos um novo `type` no CART REDUCER, para fazer a remoção de um item do carrinho após procurar o produto pelo seu `id` e encontrar o seu respectivo `index` em relação ao Array onde ele está guardado.
+
+No componente `Cart` adicionamos uma função ao botão de deletar (com o ícone da latinha de lixo), utilizando o método `dispatch` para disparar a ACTION com o type 'REMOVE_FROM_CART' (que será ouvido pela condição criada no CART REDUCER).
+
+Neste ponto, ao clicar no botão excluir da página `Cart`, o item é removido da listagem.
+
+---
