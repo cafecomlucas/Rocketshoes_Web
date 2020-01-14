@@ -131,13 +131,13 @@ Por enquanto, a quantidade de itens no carrinho permanece estática.
 - Biblioteca independente (pode ser usada com o Angular, React ou mesmo com JavaScript puro) que implementa Arquitetura Flux (que é uma forma de comunicação entre vários elementos em tela);
 - Utilizado para controle de estados globais;
 - Quando utilizar o Redux?
-  -- Meu estado tem mais de um dono? Ou seja, ele é utilizado por mais de um componente?
-  -- Meu estado é manipulado por mais de um componente? Em um e-commerce, por exemplo, um carrinho de compras pode exibir no componente cabeçalho o dado da quantidade de itens adicionados, baseado na adição feita em um outro componente que apenas lista os produtos e possui um botão de adicionar em cada um deles.
-  -- As ações do usuário causam efeitos colaterais nos dados? Por exemplo, ao adicionar um produto ao carrinho estando dentro do componente de listagem de produtos, pode exibir uma mensagem em outro componente ou afetar o dado com a quantidade de itens adicionados utilizada em um componente de cabeçalho ou rodapé.
+- - Meu estado tem mais de um dono? Ou seja, ele é utilizado por mais de um componente?
+- - Meu estado é manipulado por mais de um componente? Em um e-commerce, por exemplo, um carrinho de compras pode exibir no componente cabeçalho o dado da quantidade de itens adicionados, baseado na adição feita em um outro componente que apenas lista os produtos e possui um botão de adicionar em cada um deles.
+- - As ações do usuário causam efeitos colaterais nos dados? Por exemplo, ao adicionar um produto ao carrinho estando dentro do componente de listagem de produtos, pode exibir uma mensagem em outro componente ou afetar o dado com a quantidade de itens adicionados utilizada em um componente de cabeçalho ou rodapé.
 
 Exemplos: Carrinho de compras, dados do usuário, player de música, etc;
 
-### Artuitetura Flux
+### Arquitetura Flux
 
 Cada biblioteca Front-End possui nomes diferentes ao se referir a essa arquitetura. Pelo contexto do React, utilizaremos os nomes do Redux dentro do React.
 
@@ -175,20 +175,29 @@ REDUCER: Função responsável por um pedaço do estado global que ouve as ACTIO
 
 #### Exemplo 01
 
-\/ Propriedade do estado global Cart `[]` (Array vazio)
-\/ [Botão adicionar ao carrinho]
-\/ ACTION `{ type: 'ADD_TO_CART', procuct: { id: 1, title: 'Novo produto', price: 129.9, ...} }`
-\/ CART REDUCER (adiciona dado `formattedPrice` e adiciona ao estado) `[ { id:1, title: 'Novo produto', amount: 1, price: '129,9', formattedPrice: 'R$ 129,9',...} ]`
-\/ (Aviso do Redux aos componentes que estão ouvindo a propriedade Cart)
-Nova Renderização
+\\/ Propriedade do estado global Cart `[]` (Array vazio)
+
+\\/ [Botão adicionar ao carrinho]
+
+\\/ ACTION `{ type: 'ADD_TO_CART', procuct: { id: 1, title: 'Novo produto', price: 129.9, ...} }`
+
+\\/ CART REDUCER (adiciona dado `formattedPrice` e atualiza o estado) `[ { id:1, title: 'Novo produto', amount: 1, price: '129,9', formattedPrice: 'R$ 129,9',...} ]`
+
+\\/ (Aviso do Redux aos componentes que estão ouvindo a propriedade Cart)
+
+[Nova Renderização]
 
 #### Exemplo 02
 
-\/ [Botão atualizar quantidade]
-\/ ACTION `{ type: 'UPDATE_AMOUNT', procuct: 1, amount: 5 }`
-\/ CART REDUCER (modifica o dado `amount` e atualiza o estado) `[ { id:1, title: 'Novo produto', amount: 5, ...} ]`
-\/ (Aviso do Redux aos componentes que estão ouvindo a propriedade Cart)
-Nova Renderização
+\\/ [Botão atualizar quantidade]
+
+\\/ ACTION `{ type: 'UPDATE_AMOUNT', procuct: 1, amount: 5 }`
+
+\\/ CART REDUCER (modifica o dado `amount` e atualiza o estado) `[ { id:1, title: 'Novo produto', amount: 5, ...} ]`
+
+\\/ (Aviso do Redux aos componentes que estão ouvindo a propriedade Cart)
+
+[Nova Renderização]
 
 ---
 
@@ -245,5 +254,33 @@ Para ler e exibir a quantidade de produtos adicionados ao carrinho, modificamos 
 Dentro do componente `Header`, através do acesso as propriedades do componente, acessamos a propriedade `cartSize`, preenchida anteriormente na chamada do método `connect` e incluímos essa propriedade na estrutura para exibir a quantidade de produtos atuais no carrinho.
 
 Neste ponto, toda vez que um produto é adicionado ao carrinho, esse componente é avisado pelo Redux e renderizado novamente.
+
+---
+
+## Configurando Debug externo na ferramenta Reactotron
+
+Ter a ferramenta [Reactotron](https://github.com/infinitered/reactotron) já instalada é um pré-requisito pro funcionamento dos próximos passos.
+
+Na aplicação, instalamos o Debugger externo Reactotron e a integração dele com o Redux.
+
+```bash
+yarn add reactotron-react-js reactotron-redux
+```
+
+As dependências são instaladas em modo normal (ao invés do modo de desenvolvimento) pro ESLint não indicar erros. Contudo, ainda inicializamos o Reactotron apenas no ambiente de desenvolvimento a seguir.
+
+Na pasta src criamos o arquivo `config/ReactotronConfig.js` e nele importamos os módulos instalados, verificamos se a aplicação está rodando em ambiente de desenvolvimento (checando a variável que o `create react-app` preenche chamada `process.env.NODE_ENV`, que só existe quando utilizamos `yarn start` [e não no `yarn build`]), em caso positivo inicializamos o Reactotron e armazenamos o objeto retornado por ele dentro da variável global do console (em console.tron) para ter acesso em outros lugares da aplicação. Também efetuamos a limpeza do log (tron.clear()).
+
+(O ESLint indica um erro ao utilizar o `console.tron`, para ignora-lo alteramos o arquivo de configuração do ESLint)
+
+No `App.js`, importamos o arquivo de configuração do Reactotron antes da importação do Redux Store.
+
+Como também existe o Redux nessa aplicação, para integrá-lo ao Reactotron também foi necessário passar a função `reactotronRedux` (do Reactotron Redux) na inicialização do Reactotron (no arquivo `RectotronConfig.js`). Além disso, no arquivo `src/store/index.js` foi necessário passar o resultado do método `createEnhancer` do Reactotron como segundo parâmetro pro método `createStore`.
+
+Neste ponto, a ferramenta Reactotron já indica quando iniciamos a aplicação.
+
+Na aba "Timeline" da ferramenta Reactotron conseguimos ver os detalhes do disparo de uma ACTION (quando adicionamos um item ao carrinho, por exemplo), além de ser possível refazer o disparo de uma ACTION e modificá-la antes caso necessário.
+
+Na aba "State" da ferramenta Reactotron, em "Subscriptions" conseguimos acompanhar o valor atual de determinada propriedade global e em "Snapshots" é possível fazer um Backup de todo o estado ou reverter a aplicação para um Backup feito anteriormente.
 
 ---
