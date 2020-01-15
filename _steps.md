@@ -385,6 +385,8 @@ Também não adicionamos o cálculo diretamente na estrutura pela mesma razão d
 
 Ou seja, nesse contexto, já que o subtotal e o total só fazem sentido de serem calculados quando exibimos a listagem de todos os produtos do carrinho, o melhor local para fazer esse cálculo é dentro do mesmo arquivo que possui a estrutura dessa listagem, o componente `Cart`. Em outras palavras, cálculos (ou obtenção de valores) que utilizam dados do Redux Store podem estar no mesmo arquivo do componente.
 
+Uma outra forma de ver isso seria considerar que qualquer dado "colateral" fora do Array `cart`, como o `total` dos itens, o `subtotal` pra cada item ou até mesmo o `cartSize` (do componente `Header`), mas que ainda pertence ao contexto de `cart` e não é nenhuma regra a ser verificada através de alguma condição, pode estar dentro do `mapStateToProps`.
+
 Modificamos o componente `Cart` adicionando propriedades ao `mapStateToProps` responsáveis por guardar o subtotal (em cada produto) com base no preço e na quantidade de cada produto e o total com base nos preços e quantidades de todos os itens do carrinho.
 
 ---

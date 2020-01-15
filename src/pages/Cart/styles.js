@@ -55,10 +55,17 @@ export const ProductTable = styled.table`
     }
   }
 
+  tbody tr {
+    height: 118px;
+  }
+
   tbody td {
     color: #000;
     padding: 6px;
     border-bottom: 1px solid #ccc;
+    &:first-child {
+      text-align: center;
+    }
     @media screen and (max-width: 480px) {
       text-align: center;
     }
@@ -68,6 +75,8 @@ export const ProductTable = styled.table`
     width: 100%;
     max-width: 100px;
     min-width: 60px;
+    min-height: 60px;
+    background: #f7f7f7;
   }
 
   strong {
