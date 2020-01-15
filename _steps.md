@@ -368,11 +368,23 @@ Na página `Cart` criamos a função `decrement`, que dispara a ACTION `@cart/UP
 Na página `Cart` também criamos a função `increment`, que dispara a ACTION `@cart/UPDATE_AMOUNT` através da função `updateAmount` passando como argumento o id do produto e a quantidade (`amount`) atual incrementado em +1. Associamos essa função ao botão com o ícone que possui o sinal de mais (+);
 
 O componente `Cart` é responsável apenas pela estrutura/interface e nenhuma verificação lógica é feita nele, toda a parte lógica de alterações no estado fica por conta do Redux através do REDUCER.
- 
+
 Neste ponto, o Reactotron já mostra os disparos das ACTIONS, faltando apenas criar o REDUCER para ouvir a ACTION e fazer as alterações de acordo com as regras necessárias.
 
 Criamos a condição de atualização no REDUCER no arquivo `cart/reducer.js`. Adicionamos o case `@cart/UPDATE_AMOUNT`, com chaves ({}) para fazer uma verificação adicional antes do `return`. Verificamos se o `action.amount` recebido é menor ou igual a zero (quando o usuário tentar diminuir até o máximo possível) e não é feita nenhuma alteração no estado nesse caso. Se o `amount` recebido for maior que zero e o produto com o id informado for encontrado na lista, a alteração na quantidade é feita.
 
 Neste ponto, ao clicar no sinal de menos a quantidade diminui até chegar no limite (1) e ao clicar no sinal de mais a quantidade aumenta infinitamente.
+
+---
+
+## Cart | Exibindo subtotal e total de acordo com a quantidade de produtos
+
+Como o subtotal de cada produto e o total tratam-se de propriedades que só fazem sentido serem calculadas quando a lista de produtos está sendo exibida, adicionamos essas propriedades no componente `Cart` ao invés de adicionar ao seu respectivo REDUCER. Assim, o preço não é calculado toda vez que disparamos o evento de adicionar ao carrinho do componente `Home`, por exemplo.
+
+Também não adicionamos o cálculo diretamente na estrutura pela mesma razão de não ter feito isso na listagem de produtos no componente `Home`: não é uma boa prática e isso faria o preço ser calculado toda vez que qualquer outra propriedade do estado (diferente de `Cart`) fosse alterada.
+
+Ou seja, nesse contexto, já que o subtotal e o total só fazem sentido de serem calculados quando exibimos a listagem de todos os produtos do carrinho, o melhor local para fazer esse cálculo é dentro do mesmo arquivo que possui a estrutura dessa listagem, o componente `Cart`. Em outras palavras, cálculos (ou obtenção de valores) que utilizam dados do Redux Store podem estar no mesmo arquivo do componente.
+
+Modificamos o componente `Cart` adicionando propriedades ao `mapStateToProps` responsáveis por guardar o subtotal (em cada produto) com base no preço e na quantidade de cada produto e o total com base nos preços e quantidades de todos os itens do carrinho.
 
 ---
