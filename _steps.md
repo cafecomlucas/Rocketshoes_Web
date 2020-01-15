@@ -390,3 +390,15 @@ Uma outra forma de ver isso seria considerar que qualquer dado "colateral" fora 
 Modificamos o componente `Cart` adicionando propriedades ao `mapStateToProps` responsáveis por guardar o subtotal (em cada produto) com base no preço e na quantidade de cada produto e o total com base nos preços e quantidades de todos os itens do carrinho.
 
 ---
+
+## Home | Exibindo a quantidade de produtos adicionados no carrinho
+
+Modificamos o componente `Home` para exibir a quantidade de produtos adicionados ao carrinho dentro do botão de adicionar de cada produto.
+
+Criamos o `mapStateToProps` e nele utilizamos o `reduce` para percorrer o estado global `cart` e retornar um novo objeto chamado `amount`. O resultado é um objeto onde cada propriedade é acessada através do `id` de cada produto e no valor de cada propriedade fica guardada a quantidade de itens no carrinho deste produto.
+
+Modificamos a estrutura do componente `Home` para também exibir a quantidade de produto no carrinho consultando o objeto `amount` na propriedade nomeada com o `id` do respectivo produto. Caso a propriedade não exista, significa que o produto não existe no carrinho e retornamos `0`.
+
+Neste ponto é possível adicionar ou remover produtos tanto na página `Home`, quanto na página `Cart` e as alterações são refletidas em cada um dos botões dos produtos que estão no carrinho.
+
+---

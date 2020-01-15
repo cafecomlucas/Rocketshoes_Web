@@ -11,7 +11,7 @@ export const Container = styled.div`
   background: #fff;
   border-radius: 4px;
   @media screen and (max-width: 480px) {
-    padding: 20px 10px;
+    padding: 20px 5px;
   }
 
   footer {
@@ -91,14 +91,14 @@ export const ProductTable = styled.table`
     margin-top: 5px;
     font-size: 18px;
     font-weight: bold;
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 640px) {
       font-size: 14px;
     }
   }
   div {
     display: flex;
     align-items: center;
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 640px) {
       flex-direction: column;
     }
     input {
@@ -115,7 +115,7 @@ export const ProductTable = styled.table`
       &::-webkit-outer-spin-button {
         -webkit-appearance: none;
       }
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 640px) {
         order: 2;
       }
     }
@@ -124,7 +124,7 @@ export const ProductTable = styled.table`
     background: none;
     border: 0;
     padding: 6px;
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 640px) {
       &:first-child {
         order: 3;
       }

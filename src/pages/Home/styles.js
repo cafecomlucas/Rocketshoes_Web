@@ -7,8 +7,11 @@ export const ProductList = styled.ul`
   grid-gap: 20px;
   padding-top: 20px;
   list-style: none;
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
   }
   li {
     display: flex;
@@ -38,10 +41,11 @@ export const ProductList = styled.ul`
       margin: 5px 0 20px;
       color: #000;
     }
-    @media screen and (max-width: 880px) {
+    @media screen and (max-width: 768px) {
       img {
-        min-width: 122px;
-        min-height: 122px;
+        max-width: 221px;
+        min-width: 128px;
+        min-height: 128px;
       }
       > strong {
         font-size: 14px;
@@ -66,7 +70,7 @@ export const ProductList = styled.ul`
         transition: background 0.2s;
       }
 
-      @media screen and (max-width: 880px) {
+      @media screen and (max-width: 480px) {
         flex-direction: column;
         align-items: stretch;
         font-size: 12px;
