@@ -8,7 +8,7 @@ import {
 } from 'react-icons/md';
 import { Container, ContainerTable, ProductTable, Total } from './styles';
 
-import * as CartActions from '../../store/modules/cart/action';
+import * as CartActions from '../../store/modules/cart/actions';
 
 function Cart({ cart, removeFromCart }) {
   return (

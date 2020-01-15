@@ -7,7 +7,7 @@ import { ProductList } from './styles';
 import api from '../../services/api';
 import { formatPrice } from '../../util/format';
 
-import * as CartActions from '../../store/modules/cart/action';
+import * as CartActions from '../../store/modules/cart/actions';
 
 class Home extends Component {
   state = {

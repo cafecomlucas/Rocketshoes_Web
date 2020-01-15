@@ -333,7 +333,7 @@ Neste ponto, ao clicar no botão excluir da página `Cart`, o item é removido d
 
 ## Refatoração de todas as ACTIONS: 'ADD_TO_CART' e 'REMOVE_FROM_CART'
 
-Refatoramos o código para ter as ACTIONS de determinado módulo (nesse caso, o módulo cart) em um arquivo só, assim, se for necessário disparar uma mesma ACTION através de outro componente, importamos desse único arquivo e a manutenção também fica em apenas um local.
+Para implementar uma boa prática, refatoramos o código para ter as ACTIONS de determinado módulo (nesse caso, o módulo cart) em um arquivo só, assim, se for necessário disparar uma mesma ACTION através de outro componente, importamos desse único arquivo e a manutenção também fica em apenas um local.
 
 Dentro de `store/modules/cart` criamos o arquivo `action` e dentro dele definimos as funções que exportam a ACTION (um objeto com o type e os dados) para cada REDUCER adicionar ou remover os itens do carrinho.
 
@@ -345,8 +345,14 @@ O método `connect`, além do primeiro parâmetro (que recebe uma função para 
 
 (No caso do componente Home, como ele não precisar ler o estado global, o primeiro parâmetro ficou com o valor `null`)
 
-Após essas alterações, ao invés de utilizar o dispatch informando um objeto, ou ao invés de informar uma função que retorna o objeto, é possível acessar as funções `addToCart` e `removeFromCart` diretamente das propriedades do componente e cada uma delas já é uma função do tipo `dispatch` (disparando a ACTION quando são invocadas).
+Após essas alterações, ao invés de utilizar o dispatch informando um objeto, ou ao invés de informar uma função que retorna o objeto, é possível acessar as funções `addToCart` e `removeFromCart` diretamente das propriedades do componente e cada uma delas já é uma função do tipo `dispatch` (disparando suas respectivas ACTIONS quando são invocadas).
 
 Neste ponto a aplicação continua funcionando da mesma forma, adicionando (itens e quantidade de produtos) e removendo itens do carrinho normalmente.
+
+---
+
+## Cart ACTIONS e REDUCERS | Padroniza propriedade type
+
+Para padronizar os nomes dos types enviados pelas ACTIONS e recebidos pelos REDUCERS, como também, facilitar a visualização no Reactotron, alteramos todos os nomes seguindo a estrutura @nomeDoModulo/ACAO.
 
 ---
