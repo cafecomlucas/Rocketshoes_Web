@@ -353,6 +353,26 @@ Neste ponto a aplicação continua funcionando da mesma forma, adicionando (iten
 
 ## Cart ACTIONS e REDUCERS | Padroniza propriedade type
 
-Para padronizar os nomes dos types enviados pelas ACTIONS e recebidos pelos REDUCERS, como também, facilitar a visualização no Reactotron, alteramos todos os nomes seguindo a estrutura @nomeDoModulo/ACAO.
+Para padronizar os nomes dos types enviados pelas ACTIONS / recebidos pelos REDUCERS, como também, facilitar a visualização no Reactotron, alteramos todos os nomes seguindo a estrutura @nomeDoModulo/ACAO.
+
+---
+
+## Cart ACTION/REDUCER | Adicionando e removendo a quantidade de produtos
+
+Adicionamos as funcionalidades de adicionar ou remover a quantidade de determinado produto que aparece na página `Cart`.
+
+Criamos a função `updateAmount` que retorna a ACTION no arquivo `cart/actions.js`. A ACTION possui o type `@cart/UPDATE_AMOUNT`, o `id` do produto com a quantidade a ser alterada e o `amount` com o valor da nova quantidade. A função da ACTION deve apenas retornar os dados necessários e toda a parte lógica fica por conta do REDUCER.
+
+Na página `Cart` criamos a função `decrement`, que dispara a ACTION `@cart/UPDATE_AMOUNT` através da função `updateAmount` passando como argumento o id do produto e a quantidade (`amount`) atual decrementado em -1. Associamos essa função ao botão com o ícone que possui o sinal de menos (-);
+
+Na página `Cart` também criamos a função `increment`, que dispara a ACTION `@cart/UPDATE_AMOUNT` através da função `updateAmount` passando como argumento o id do produto e a quantidade (`amount`) atual incrementado em +1. Associamos essa função ao botão com o ícone que possui o sinal de mais (+);
+
+O componente `Cart` é responsável apenas pela estrutura/interface e nenhuma verificação lógica é feita nele, toda a parte lógica de alterações no estado fica por conta do Redux através do REDUCER.
+ 
+Neste ponto, o Reactotron já mostra os disparos das ACTIONS, faltando apenas criar o REDUCER para ouvir a ACTION e fazer as alterações de acordo com as regras necessárias.
+
+Criamos a condição de atualização no REDUCER no arquivo `cart/reducer.js`. Adicionamos o case `@cart/UPDATE_AMOUNT`, com chaves ({}) para fazer uma verificação adicional antes do `return`. Verificamos se o `action.amount` recebido é menor ou igual a zero (quando o usuário tentar diminuir até o máximo possível) e não é feita nenhuma alteração no estado nesse caso. Se o `amount` recebido for maior que zero e o produto com o id informado for encontrado na lista, a alteração na quantidade é feita.
+
+Neste ponto, ao clicar no sinal de menos a quantidade diminui até chegar no limite (1) e ao clicar no sinal de mais a quantidade aumenta infinitamente.
 
 ---
