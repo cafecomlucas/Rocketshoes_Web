@@ -402,3 +402,35 @@ Modificamos a estrutura do componente `Home` para também exibir a quantidade de
 Neste ponto é possível adicionar ou remover produtos tanto na página `Home`, quanto na página `Cart` e as alterações são refletidas em cada um dos botões dos produtos que estão no carrinho.
 
 ---
+
+## Trabalhando com Middlewares através do Redux Saga
+
+O [Redux Saga](https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html) é uma biblioteca para lidar com side-effects (efeitos colaterais). Ele lida com a execução de um código assíncrono que precisa acontecer antes da execução de algum outro código. Esses códigos que acontecem antes, são os chamados side-effects. Essa biblioteca funciona através de middlewares, ou seja, através de funções intermediadoras. Por exemplo: ao executar a requisição de dados de uma API, podemos exibir um loader, até que o resultado seja recebido, para depois executar a ACTION de atualização/exibição dos dados em tela.
+
+Instalamos a biblioteca Redux Saga:
+
+```bash
+yarn add redux-saga
+```
+
+Iniciamos a configuração de inicialização do Saga na aplicação.
+
+Dentro da pasta `store/modules` criamos o arquivo `rootSagas.js`, que serve para combinar e exportar todos os sagas (semelhante ao que fizemos com os reducers, já que a partir deste ponto vamos chamar um saga ao invés de reducer em alguns casos).
+
+No arquivo `rootSagas.js`, importamos o método `all` do Redux Saga para fazer a combinação de todos os sagas (por enquanto não existe nenhum). A estrutura do código do Redux Saga espera ser utilizada com **generators**, que é uma maneira de executar códigos assíncronos semelhante ao **async/await**, só que com recursos adicionais. Para utilizar uma função com generator cologamos um sinal de vezes na frente de sua palavra chave (`function* ...`) e isso funciona como se fosse um **async**. Dentro da função, para cada código assícrono colocamos o `yield`, que funciona como se fosse um **await**.
+
+(O Babel converte o async/await pra genarators em alguns navegadores)
+
+Modificamos o arquivo `store/index.js` definindo a nova configuração para a utilização dos sagas. 
+
+ Para utilizar um "Saga Middleware" é necessário criá-lo através do método `createSagaMiddleware`. Fizemos a criação e guardamos na variável `sagaMiddleware`.
+
+ Foi necessário modificar o que a constante `enhancer` recebe, já que neste ponto existe um código adicional além do código do Reactotron. Como utilizamos um if ternário, para unir os códigos que precisam ser carregados em ambiente de desenvolvimento, utilizamos o método `compose` do Redux, passando como argumento tanto a chamada do método `tron.createEnhancer()`, quanto o "Saga Middleware".
+
+Quando utilizamos um "Middleware" no Redux Store, também é necessário iniciáliza-lo através do método `applyMiddleware` do Redux, então utilizamos esse método por volta do `sagaMiddleware`.
+
+Após a inicialização do `store`, também inicializamos os middlewares do Saga através do método `sagaMiddleware.run`, passando os sagas (importados do arquivo `rootSagas.js`) como parâmetro.
+
+Neste ponto a aplicação continua funcionando normalmente com o Saga inicializado.
+
+---
