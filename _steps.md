@@ -405,7 +405,7 @@ Neste ponto é possível adicionar ou remover produtos tanto na página `Home`, 
 
 ## Trabalhando com Middlewares através do Redux Saga
 
-O [Redux Saga](https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html) é uma biblioteca para lidar com side-effects (efeitos colaterais). Ele lida com a execução de um código assíncrono que precisa acontecer antes da execução de algum outro código. Esses códigos que acontecem antes, são os chamados side-effects. Essa biblioteca funciona através de middlewares, ou seja, através de funções intermediadoras. Por exemplo: ao executar a requisição de dados de uma API, podemos exibir um loader, até que o resultado seja recebido, para depois executar a ACTION de atualização/exibição dos dados em tela.
+O [Redux Saga](https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html) é uma biblioteca para lidar com side-effects (efeitos colaterais). Ele lida com a execução de um código assíncrono que precisa acontecer antes da execução de algum outro código. Esses códigos que acontecem antes, são os chamados side-effects. Essa biblioteca funciona através de middlewares, ou seja, através de funções intermediadoras. Por exemplo: ao executar a requisição de dados de uma API, podemos exibir um loader, até que o resultado seja recebido, para depois executar a ACTION de atualização/exibição dos dados em tela. Ou seja, um "Saga Middleware" intercepta uma ACTION e executa um código antes de chamar o REDUCER.
 
 Instalamos a biblioteca Redux Saga:
 
@@ -432,5 +432,41 @@ Quando utilizamos um "Middleware" no Redux Store, também é necessário iniciá
 Após a inicialização do `store`, também inicializamos os middlewares do Saga através do método `sagaMiddleware.run`, passando os sagas (importados do arquivo `rootSagas.js`) como parâmetro.
 
 Neste ponto a aplicação continua funcionando normalmente com o Saga inicializado.
+
+---
+
+## Cart Sagas | Criando primeiro saga
+
+Imaginando que a listagem de produtos principal na página `Home` não traz todas as informações de um produto (como peso, altura, etc) e que precisamos exibir essas informações adicionais na página `Cart`, utilizamos o Redux Saga, para buscar os dados adicionais na API antes de exibir a página `Cart`.
+
+Para executar esse passo a mais, é necessário criar uma nova ACTION. A nova ACTION que será ouvida pelo SAGA possuirá o type `@cart/ADD_REQUEST`, que após ser executada, vai disparar outra ACTION chamada `@cart/ADD_SUCCESS` (a antiga `@cart/ADD` que adiciona o produto ao carrinho.
+
+No arquivo `cart/actions.js` adicionamos a função `addToCartRequest` pra retornar a ACTION apenas com o ID e o SAGA será responsável por buscar as outras informações do produto e por passar essas informações adiante. Também renomeamos a função já existente `addToCart` para `addToCartSucess`.
+
+No arquivo `cart/reducer.js`, modificamos o case ADD para escutar o type `@cart/ADD_SUCCESS` ao invés de `@cart/ADD`.
+
+No arquivo `pages/Home`, modificamos e o método `handleAddToCart` para receber o `id` como parâmetro e depois chamar a função `addToCartRequest` ao invés da antiga `addToCart` para disparar a ACTION com o type `@cart/ADD_REQUEST`.
+
+Para a ACTION com o type `@cart/ADD_REQUEST` ser ouvida pelo SAGA, essa configuração é feita e exportada do arquivo SAGA pro respectivo módulo.
+
+Criamos o arquivo `cart/sagas.js` e nele uma função com generator chamada `addToCart`, que executará algum código quando a "SAGA ACTION" `@cart/ADD_REQUEST` for chamada. 
+
+Ao final do arquivo, exportamos essa configuração utilizando o método `all` do `redux-saga/effects` para unir todos os listeners a serem executados (por enquanto só existe esse de adicionar), mas quando surgirem novos, basta adicioná-los ao Array. Para criar o listener, utilizamos o método `takeLatest` do `redux-saga/effects`, passando no primeiro parâmetro o type da ACTION a ser ouvida (`@cart/ADD_REQUEST`) e a função a ser executada quando essa ACTION for disparada (`addToCart`). O `takeLatest` cria um tipo de `listener` que sempre ouve apenas a última execução/chamada da ACTION, cancelando as chamadas anteriores (para quando o usuário faz várias chamadas clicando várias vezes em um botão, por exemplo).
+
+A função `addToCart` é responsável por executar aquele passo a mais, fazendo a busca na API antes da execução da ACTION seguinte (podendo passar as informações adicionais pra ela). Nela fazemos a chamada a API utilizando o ID recebido da ACTION com o type `@cart/ADD_REQUEST`. Ao utilizar o SAGA, qualquer chamada desse tipo (assíncronas que retornam Promisses) não podem ser feitas diretamente e é necessário utilizar o método auxiliar `call` do `redux-saga/effects`. Após receber os dados, disparamos a "REDUX ACTION" com o type `@cart/ADD_SUCCESS`, através de um outro método auxiliar chamado `put` do `redux-saga/effects`.
+
+Modificamos o arquivo `rootSagas.js` para incluir o CART SAGA na exportação a ser utilizada pelo `store/index.js`.
+
+Fluxo:
+
+\\/ [botão adicionar ao carrinho da página `Home`]
+\\/ dispatch "SAGA ACTION" type `@cart/ADD_REQUEST` (através do método `addToCartSuccess`)
+\\/ arquivo "SAGA REDUCER", funcão `addToCart` que recebe `id`
+\\/ (chamada a API)
+\\/ dispatch "REDUX ACTION" type `@cart/ADD_SUCCESS` (através do método `addToCartRequest`)
+\\/ arquivo "REDUX REDUCER", função cart que recebe `product`, case `@cart/ADD_SUCCESS`
+\\/ (adiciona produto ao carrinho)
+
+Neste ponto, a aplicação continua funcionando como antes, mas agora com a chamada a API e recebimento dos dados do produto antes de guarda-lo no carrinho.
 
 ---
