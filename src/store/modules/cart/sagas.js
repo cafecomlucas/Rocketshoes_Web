@@ -4,15 +4,28 @@ import api from '../../../services/api';
 import { addToCartSuccess, updateAmount } from './actions';
 
 function* addToCart(action) {
+  const { id } = action;
+
   const productExists = yield select(state =>
-    state.cart.find(p => p.id === action.id)
+    state.cart.find(p => p.id === id)
   );
 
+  const {
+    data: { amount: stockAmount },
+  } = yield call(api.get, `/stock/${id}`);
+  const currentAmount = productExists ? productExists.amount : 0;
+
+  const nextAmount = currentAmount + 1;
+
+  if (nextAmount > stockAmount) {
+    console.tron.warn('Erro ao adicionar no carrinho');
+    return;
+  }
+
   if (productExists) {
-    const { amount } = productExists;
-    yield put(updateAmount(action.id, amount + 1));
+    yield put(updateAmount(id, nextAmount));
   } else {
-    const { data } = yield call(api.get, `/products/${action.id}`);
+    const { data } = yield call(api.get, `/products/${id}`);
     const product = {
       ...data,
       amount: 1,

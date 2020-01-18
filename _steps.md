@@ -502,3 +502,13 @@ Se o produto ainda não existir, buscamos o mesmo na API, adicionamos a propried
 Neste ponto, o funcionamento de adicionar ou remover produtos e quantidades permanece o mesmo, contudo, a busca pelo produto na API só é feita quando o produto ainda não existe no carrinho.
 
 --- 
+
+## Home | Verifica se um produto existe no estoque antes de adicionar/atualizar
+
+Modificamos o arquivo `store/sagas.js` para verificar se o produto existe no estoque antes de adicionar ao carrinho ou antes de atualizar a quantidade (quando ele já existe no carrinho). Buscamos na API a quantidade disponível em estoque e guardamos na constante `stockAmount`. Também buscamos e guardamos na constante `currentAmount` a quantidade atual do produto caso ele exista ou preenchemos com `0` se ele não existir. Utilizamos o dado de `currentAmount` para criar a constante `nextAmount` e incrementamos com `+1`. Por fim, comparamos o valor de `nextAmount` com o `stockAmount` e impedimos o fluxo se o `nextAmount` for maior que o `stockAmount`.
+
+Também alteramos o código dentro do `if(productExists)`, removendo o incremento do `amount` já que neste ponto isso é feito antes do if.
+
+Neste ponto da aplicação é possível adicionar produtos no carrinho somente até atingir o limite de produtos do estoque.
+
+---
