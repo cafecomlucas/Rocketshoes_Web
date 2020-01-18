@@ -405,7 +405,7 @@ Neste ponto é possível adicionar ou remover produtos tanto na página `Home`, 
 
 ## Trabalhando com Middlewares através do Redux Saga
 
-O [Redux Saga](https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html) é uma biblioteca para lidar com side-effects (efeitos colaterais). Ele lida com a execução de um código assíncrono que precisa acontecer antes da execução de algum outro código. Esses códigos que acontecem antes, são os chamados side-effects. Essa biblioteca funciona através de middlewares, ou seja, através de funções intermediadoras. Por exemplo: ao executar a requisição de dados de uma API, podemos exibir um loader, até que o resultado seja recebido, para depois executar a ACTION de atualização/exibição dos dados em tela. Ou seja, um "Saga Middleware" intercepta uma ACTION e executa um código antes de chamar o REDUCER.
+O [Redux Saga](https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html) é uma biblioteca para lidar com side-effects (efeitos colaterais) no React (tanto Web quanto Mobile). Ele lida com a execução de um código assíncrono que precisa acontecer antes da execução de algum outro código. Esses códigos que acontecem antes, são os chamados side-effects. Essa biblioteca funciona através de middlewares, ou seja, através de funções intermediadoras. Por exemplo: ao executar a requisição de dados de uma API, podemos exibir um loader, até que o resultado seja recebido, para depois executar a ACTION de atualização/exibição dos dados em tela. Ou seja, um "Saga Middleware" intercepta uma ACTION e executa um código antes de chamar o REDUCER.
 
 Instalamos a biblioteca Redux Saga:
 
@@ -435,7 +435,7 @@ Neste ponto a aplicação continua funcionando normalmente com o Saga inicializa
 
 ---
 
-## Cart Sagas | Criando primeiro saga
+## Cart SAGA | Chamada a API antes de armazenar produto no carrinho
 
 Imaginando que a listagem de produtos principal na página `Home` não traz todas as informações de um produto (como peso, altura, etc) e que precisamos exibir essas informações adicionais na página `Cart`, utilizamos o Redux Saga, para buscar os dados adicionais na API antes de exibir a página `Cart`.
 
@@ -468,5 +468,21 @@ Fluxo:
 \\/ (adiciona produto ao carrinho)
 
 Neste ponto, a aplicação continua funcionando como antes, mas agora com a chamada a API e recebimento dos dados do produto antes de guarda-lo no carrinho.
+
+---
+
+## Reactotron | Instalando plugin do Redux Saga
+
+Para facilitar a visualização do fluxo da aplicação instalamos o plugin do Redux Saga pro Reactotron:
+
+```bash
+yarn add reactotron-redux-saga
+```
+
+No arquivo `config/ReactotronConfig.js` importamos o e inicializamos o plugin através do método `use` do Reactotron.
+
+No arquivo `store/index.js` inicializamos a constante `sagaMonitor` com o método do Reactotron `createSagaMonitor` se estivermos em ambiente de desenvolvimento e passamos como parâmetro pro método `createSagaMiddleware`.
+
+Neste ponto, ao adicionar um produto ao carrinho é possível ver todo o fluxo no Reactotron, desde o disparo da primeira ACTION de REQUEST, até a chamada da API e a chamada da ACTION de SUCCESS. A ultilização do `yield` antes das chamadas dos métodos/effects `call` e `put` permitem que eles métodos sejam exibidos no debugger. Também é possível ver os detalhes de cada effect, como o que foi enviado via parâmetro (`in`) e o que foi recebido pelo retorno das funções (`out`).
 
 ---
