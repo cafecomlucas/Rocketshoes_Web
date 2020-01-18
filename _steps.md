@@ -532,3 +532,19 @@ Também foi necessário adicionar a verificação de produto em estoque na pági
 Neste ponto da aplicação é possível adicionar produtos no carrinho somente até atingir o limite de produtos em estoque, tanto na página Home, quanto na página Cart.
 
 ---
+
+## Exibindo mensagens de erro | Instalação/Configuração do Toastify
+
+Para exibir uma mensagem de erro pro usuário quando o mesmo tenta adicionar uma quantidade de produtos maior do que a existente no estoque, instalamos a biblioteca [Toastify](https://github.com/fkhadra/react-toastify):
+
+```bash
+yarn add react-toastify
+```
+
+No arquivo `src/App.js`, importamos a estrutura do Toastify através do componente `ToastContainer` (indicando via propriedade o tempo de exibição de cada mensagem) e seu respectivo CSS do arquivo `ReactToastify.css` (após a importação da estilização global).
+
+No Cart SAGA (arquivo `cart/sagas.js`) utilizamos o método `toast.error` para exibir a mensagem "Quantidade solicitada indisponível" tanto na página Home, quanto na página Cart.
+
+Neste ponto da aplicação as mensagens de erros são exibidas toda vez que o usuário tenta adicionar uma quantidade maior do que a existente no estoque.
+
+---

@@ -1,4 +1,6 @@
 import { call, select, put, all, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
+
 import api from '../../../services/api';
 
 import { addToCartSuccess, updateAmountSuccess } from './actions';
@@ -18,7 +20,7 @@ function* addToCart(action) {
   const nextAmount = currentAmount + 1;
 
   if (nextAmount > stockAmount) {
-    console.tron.warn('Erro ao adicionar no carrinho');
+    toast.error('Quantidade solicitada indisponível');
     return;
   }
 
@@ -43,7 +45,7 @@ function* updateAmount(action) {
   } = yield call(api.get, `/stock/${id}`);
 
   if (nextAmount > stockAmount) {
-    console.tron.warn('Erro ao adicionar no carrinho');
+    toast.error('Quantidade solicitada indisponível');
     return;
   }
   yield put(updateAmountSuccess(id, nextAmount));
