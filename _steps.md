@@ -405,7 +405,7 @@ Neste ponto é possível adicionar ou remover produtos tanto na página `Home`, 
 
 ## Trabalhando com Middlewares através do Redux Saga
 
-O [Redux Saga](https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html) é uma biblioteca para lidar com side-effects (efeitos colaterais) no React (tanto Web quanto Mobile). Ele lida com a execução de um código assíncrono que precisa acontecer antes da execução de algum outro código. Esses códigos que acontecem antes, são os chamados side-effects. Essa biblioteca funciona através de middlewares, ou seja, através de funções intermediadoras. Por exemplo: ao executar a requisição de dados de uma API, podemos exibir um loader, até que o resultado seja recebido, para depois executar a ACTION de atualização/exibição dos dados em tela. Ou seja, um "Saga Middleware" intercepta uma ACTION e executa um código antes de chamar o REDUCER.
+O [Redux Saga](https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html) é uma biblioteca para lidar com side-effects (efeitos colaterais) no React (tanto Web quanto Mobile). Ele lida com a execução de um código assíncrono que precisa acontecer antes da execução de algum outro código. Esses códigos que acontecem antes são os chamados side-effects. Essa biblioteca funciona através de middlewares, ou seja, através de funções intermediadoras. Por exemplo: ao executar a requisição de dados de uma API, podemos exibir um loader, até que o resultado seja recebido, para depois executar a ACTION de atualização/exibição dos dados em tela. Ou seja, um "Saga Middleware" intercepta uma ACTION e executa um código antes de chamar o REDUCER.
 
 Instalamos a biblioteca Redux Saga:
 
@@ -486,3 +486,19 @@ No arquivo `store/index.js` inicializamos a constante `sagaMonitor` com o métod
 Neste ponto, ao adicionar um produto ao carrinho é possível ver todo o fluxo no Reactotron, desde o disparo da primeira ACTION de REQUEST, até a chamada da API e a chamada da ACTION de SUCCESS. A ultilização do `yield` antes das chamadas dos métodos/effects `call` e `put` permitem que eles métodos sejam exibidos no debugger. Também é possível ver os detalhes de cada effect, como o que foi enviado via parâmetro (`in`) e o que foi recebido pelo retorno das funções (`out`).
 
 ---
+
+## Cart | Verificando se produto existe no SAGA ao invés do REDUCER | Separando ACTION de Adição do Produto da ACTION de atualização da quantidade
+
+Para evitar buscar um produto na API todas as vezes (mesmo quando ele já existe no carrinho) movemos a lógica de verificação da existencia de um produto e atualização da quantidade de dentro do REDUCER para dentro do SAGA do módulo cart. Fazendo isso também separamos a lógica do código que deve ser executado (dependendo da existencia do produto) disparando uma ACTION de adição apenas para adicionar ou disparando uma ACTION de atualização apenas para atualizar.
+
+No Cart REDUCER, retiramos todo o código do case `@cart/ADD_SUCCESS` e deixamos apenas a inclusão direta do produto no carrinho.
+
+No Cart SAGA, alteramos o método `addToCart` para verificar se o produto já existe no carrinho. Pra fazer essa verificação de dentro de uma função do Saga é necessário utilizar o método/effect `select` para poder acessar o estado global do Redux Store.
+
+Importamos o método `updateAmount` para disparar a ACTION de atualização da quantidade caso o produto já exista.
+
+Se o produto ainda não existir, buscamos o mesmo na API, adicionamos a propriedade `amount: 1` e disparamos a ACTION de adicionar o produto através do método `addToCartSuccess`.
+
+Neste ponto, o funcionamento de adicionar ou remover produtos e quantidades permanece o mesmo, contudo, a busca pelo produto na API só é feita quando o produto ainda não existe no carrinho.
+
+--- 
