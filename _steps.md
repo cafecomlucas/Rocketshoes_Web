@@ -509,6 +509,26 @@ Modificamos o arquivo `store/sagas.js` para verificar se o produto existe no est
 
 Também alteramos o código dentro do `if(productExists)`, removendo o incremento do `amount` já que neste ponto isso é feito antes do if.
 
-Neste ponto da aplicação é possível adicionar produtos no carrinho somente até atingir o limite de produtos do estoque.
+Neste ponto da aplicação, na página Home, é possível adicionar produtos no carrinho somente até atingir o limite de produtos em estoque.
+
+---
+
+## Cart | Verifica se um produto existe no estoque antes de atualizar
+
+Também foi necessário adicionar a verificação de produto em estoque na página `/cart`. Para isso, seguimos os seguintes passos:
+
+- Modificamos o `cart/actions`, dividindo a ACTION `updateAmount` em duas: `updateAmountRequest` (que será ouvida pelo Cart SAGA) e `updateAmountSuccess` (que será ouvida pelo Redux).
+
+- Atualizamos a página cart (arquivo `pages/Cart/index.js`) para chamar a nova função/ACTION `updateAmountRequest` ao invés da antiga `updateAmount`.
+
+- Atualizamos o Cart REDUCER (arquivo `modules/cart/reducer.js`) para ouvir o type `'@cart/UPDATE_AMOUNT_SUCCESS'` e removemos o if que verificava se o amount era menor ou igual a 0 (foi movido pro Cart SAGA).
+
+- Atualizamos o Cart SAGA (arquivo `modules/cart/sagas.js`) para chamar a função/ACTION `updateAmountSuccess` dentro da função `addToCart` (não foi necessário chamar a `updateAmountRequest` pois a verificação de estoque já é feita logo antes da chamada).
+
+- Atualizamos o Cart SAGA (arquivo `modules/cart/sagas.js`) para ouvir a `'@cart/UPDATE_AMOUNT_REQUEST'` (disparada da página `/cart`) e chamar a função `updateAmount`.
+
+- Criamos a função `updateAmount`. Nela verificamos se o valor do amount é menor ou igual à 0 (verificação movida do Cart REDUCER), evitando qualquer requisição desnecessária. Também verificamos se o produto existe em estoque: caso não exista o fluxo é interrompido e caso exista chamamos a função/ACTION `updateAmountSuccess`. (Não foi necessário verificar se o produto existe no carrinho no Cart SAGA pois o essa verificação já é feita no Cart REDUCER)
+
+Neste ponto da aplicação é possível adicionar produtos no carrinho somente até atingir o limite de produtos em estoque, tanto na página Home, quanto na página Cart.
 
 ---

@@ -1,7 +1,7 @@
 import { call, select, put, all, takeLatest } from 'redux-saga/effects';
 import api from '../../../services/api';
 
-import { addToCartSuccess, updateAmount } from './actions';
+import { addToCartSuccess, updateAmountSuccess } from './actions';
 
 function* addToCart(action) {
   const { id } = action;
@@ -23,7 +23,7 @@ function* addToCart(action) {
   }
 
   if (productExists) {
-    yield put(updateAmount(id, nextAmount));
+    yield put(updateAmountSuccess(id, nextAmount));
   } else {
     const { data } = yield call(api.get, `/products/${id}`);
     const product = {
@@ -34,4 +34,22 @@ function* addToCart(action) {
   }
 }
 
-export default all([takeLatest('@cart/ADD_REQUEST', addToCart)]);
+function* updateAmount(action) {
+  const { id, amount: nextAmount } = action;
+  if (nextAmount <= 0) return;
+
+  const {
+    data: { amount: stockAmount },
+  } = yield call(api.get, `/stock/${id}`);
+
+  if (nextAmount > stockAmount) {
+    console.tron.warn('Erro ao adicionar no carrinho');
+    return;
+  }
+  yield put(updateAmountSuccess(id, nextAmount));
+}
+
+export default all([
+  takeLatest('@cart/ADD_REQUEST', addToCart),
+  takeLatest('@cart/UPDATE_AMOUNT_REQUEST', updateAmount),
+]);
