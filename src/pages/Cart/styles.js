@@ -1,6 +1,41 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
+export const ContainerNoProducts = styled.div`
+  padding-bottom: 10px;
+  text-align: center;
+  h2 {
+    color: #333;
+    font-size: 32px;
+    line-height: 35px;
+    padding: 20px 0 5px 0;
+  }
+  h3 {
+    color: #333;
+    font-size: 22px;
+    line-height: 25px;
+    padding: 0 0 40px 0;
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 20px;
+    background: #7159c1;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s;
+    margin: 0 auto;
+    &:hover {
+      background: ${darken(0.1, '#7159c1')};
+    }
+  }
+`;
+
 export const ContainerTable = styled.div`
   overflow: auto;
 `;
