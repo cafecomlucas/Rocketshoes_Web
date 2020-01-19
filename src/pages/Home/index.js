@@ -61,7 +61,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  amount: state.cart.reduce((amount, product) => {
+  amount: state.cart.products.reduce((amount, product) => {
     amount[product.id] = product.amount;
     return amount;
   }, {}),

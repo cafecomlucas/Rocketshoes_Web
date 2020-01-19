@@ -10,7 +10,7 @@ function* addToCart(action) {
   const { id } = action;
 
   const productExists = yield select(state =>
-    state.cart.find(p => p.id === id)
+    state.cart.products.find(p => p.id === id)
   );
 
   const {
