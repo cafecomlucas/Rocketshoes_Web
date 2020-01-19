@@ -79,23 +79,18 @@ export const Container = styled.div`
   }
 `;
 
-export const ProductTable = styled.table.attrs(props => ({
-  disabled: props['data-loading'],
-}))`
+export const ProductTable = styled.table`
   width: 100%;
   thead th {
     color: #999;
     text-align: left;
     padding: 6px;
+    font-size: 16px;
     @media screen and (max-width: 480px) {
       text-align: center;
+      font-size: 12px;
     }
   }
-`;
-
-export const ProductLine = styled.tr`
-  opacity: ${props => (props['data-loading'] ? 0.5 : 1)};
-  height: 118px;
 
   tbody td {
     color: #000;
@@ -106,8 +101,14 @@ export const ProductLine = styled.tr`
     }
     @media screen and (max-width: 480px) {
       text-align: center;
+      padding: 0;
     }
   }
+`;
+
+export const ProductLine = styled.tr`
+  opacity: ${props => (props['data-loading'] ? 0.5 : 1)};
+  height: 118px;
 
   img {
     width: 100%;

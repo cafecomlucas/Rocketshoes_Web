@@ -49,7 +49,7 @@ export const ProductList = styled.ul`
     }
     @media screen and (max-width: 768px) {
       img {
-        max-width: 221px;
+        max-width: 180px;
         min-width: 128px;
         min-height: 128px;
       }
@@ -89,6 +89,7 @@ export const AddButton = styled.button.attrs(props => ({
   @media screen and (max-width: 480px) {
     flex-direction: column;
     align-items: stretch;
+    justify-content: center;
     font-size: 12px;
   }
 
@@ -105,11 +106,16 @@ export const AddButton = styled.button.attrs(props => ({
     > span {
       margin-left: 5px;
     }
+    @media screen and (max-width: 480px) {
+      min-height: 34px;
+      padding: 6px;
+    }
   }
   > span {
     flex: 1;
     padding: 10px;
     text-align: center;
     font-weight: bold;
+    align-self: center;
   }
 `;
