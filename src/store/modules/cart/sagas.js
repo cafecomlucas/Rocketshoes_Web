@@ -4,10 +4,16 @@ import { toast } from 'react-toastify';
 import api from '../../../services/api';
 import history from '../../../services/history';
 
-import { addToCartSuccess, updateAmountSuccess } from './actions';
+import {
+  addToCartSuccess,
+  updateAmountSuccess,
+  updateLoading,
+} from './actions';
 
 function* addToCart(action) {
   const { id } = action;
+
+  yield put(updateLoading(id, true));
 
   const productExists = yield select(state =>
     state.cart.products.find(p => p.id === id)
@@ -22,6 +28,7 @@ function* addToCart(action) {
 
   if (nextAmount > stockAmount) {
     toast.error('Quantidade solicitada indisponível');
+    yield put(updateLoading(id, false));
     return;
   }
 
@@ -36,6 +43,7 @@ function* addToCart(action) {
     yield put(addToCartSuccess(product));
     history.push('/cart');
   }
+  yield put(updateLoading(id, false));
 }
 
 function* updateAmount(action) {

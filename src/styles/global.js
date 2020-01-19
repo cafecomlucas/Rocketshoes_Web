@@ -1,6 +1,14 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, keyframes } from 'styled-components';
 
 import background from '../assets/images/app-background.svg';
+
+const rotate = keyframes`
+  to {
+    transform: rotate(0deg)
+  }
+  from {
+    transform: rotate(-360deg)
+  }`;
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
@@ -33,5 +41,9 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+  }
+
+  .spinner{
+    animation: ${rotate} 800ms linear infinite;
   }
 `;

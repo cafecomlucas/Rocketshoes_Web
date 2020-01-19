@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
+import { FaSpinner } from 'react-icons/fa';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { ProductList } from './styles';
+import { ProductList, AddButton } from './styles';
 import api from '../../services/api';
 import { formatPrice } from '../../util/format';
 
@@ -33,7 +34,7 @@ class Home extends Component {
 
   render() {
     const { products } = this.state;
-    const { amount } = this.props;
+    const { amount, loading } = this.props;
 
     return (
       <ProductList>
@@ -43,16 +44,23 @@ class Home extends Component {
             <strong>{product.title}</strong>
             <span>{product.formattedPrice}</span>
 
-            <button
+            <AddButton
               type="button"
+              loading-data={loading[product.id]}
               onClick={() => this.handleAddToCart(product.id)}
             >
               <div>
-                <MdAddShoppingCart size={16} color="#fff" />{' '}
-                {amount[product.id] || 0}
+                {loading[product.id] ? (
+                  <FaSpinner className="spinner" size={16} color="#fff" />
+                ) : (
+                  <>
+                    <MdAddShoppingCart size={16} color="#fff" />{' '}
+                    <span>{amount[product.id] || 0}</span>
+                  </>
+                )}
               </div>
               <span>ADICIONAR AO CARRINHO</span>
-            </button>
+            </AddButton>
           </li>
         ))}
       </ProductList>
@@ -64,6 +72,10 @@ const mapStateToProps = state => ({
   amount: state.cart.products.reduce((amount, product) => {
     amount[product.id] = product.amount;
     return amount;
+  }, {}),
+  loading: state.cart.loading.reduce((loading, item) => {
+    loading[item.id] = item.status;
+    return loading;
   }, {}),
 });
 

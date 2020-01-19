@@ -54,45 +54,56 @@ export const ProductList = styled.ul`
         font-size: 16px;
       }
     }
+  }
+`;
 
-    button {
-      display: flex;
-      background: #7159c1;
-      color: #fff;
-      border: 0;
-      border-radius: 4px;
-      overflow: hidden;
-      align-items: center;
-      font-size: 14px;
+export const AddButton = styled.button.attrs(props => ({
+  disabled: props['loading-data'],
+}))`
+  display: flex;
+  background: #7159c1;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  align-items: center;
+  font-size: 14px;
 
-      &:hover {
-        background: ${darken(0.1, '#7159c1')};
-        transition: background 0.2s;
-      }
+  &:hover {
+    background: ${darken(0.1, '#7159c1')};
+    transition: background 0.2s;
+  }
 
-      @media screen and (max-width: 480px) {
-        flex-direction: column;
-        align-items: stretch;
-        font-size: 12px;
-      }
+  &[disabled] {
+    cursor: not-allowed;
+    background: #a7a7a7;
+    opacity: 0.6;
+  }
 
-      div {
-        display: flex;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 12px;
-        align-self: stretch;
-        justify-content: center;
-        align-items: center;
-        svg {
-          margin-right: 5px;
-        }
-      }
-      span {
-        flex: 1;
-        padding: 10px;
-        text-align: center;
-        font-weight: bold;
-      }
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    font-size: 12px;
+  }
+
+  div {
+    display: flex;
+    min-width: 54px;
+    min-height: 54px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    align-self: stretch;
+    justify-content: center;
+    align-items: center;
+    > span {
+      margin-left: 5px;
     }
+  }
+  > span {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
   }
 `;
