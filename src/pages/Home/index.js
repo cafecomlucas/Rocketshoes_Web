@@ -4,7 +4,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { ProductList, AddButton } from './styles';
+import { ProductsSpinner, ProductList, AddButton } from './styles';
 import api from '../../services/api';
 import { formatPrice } from '../../util/format';
 
@@ -13,6 +13,7 @@ import * as CartActions from '../../store/modules/cart/actions';
 class Home extends Component {
   state = {
     products: [],
+    loadingProducts: true,
   };
 
   async componentDidMount() {
@@ -23,7 +24,7 @@ class Home extends Component {
       formattedPrice: formatPrice(product.price),
     }));
 
-    this.setState({ products });
+    this.setState({ products, loadingProducts: false });
   }
 
   handleAddToCart(id) {
@@ -33,37 +34,45 @@ class Home extends Component {
   }
 
   render() {
-    const { products } = this.state;
-    const { amount, loading } = this.props;
+    const { products, loadingProducts } = this.state;
+    const { amount, loadingProduct } = this.props;
 
     return (
-      <ProductList>
-        {products.map(product => (
-          <li key={product.id}>
-            <img src={product.image} alt={product.title} />
-            <strong>{product.title}</strong>
-            <span>{product.formattedPrice}</span>
+      <>
+        {loadingProducts ? (
+          <ProductsSpinner>
+            <FaSpinner className="spinner" size={48} color="#fff" />
+          </ProductsSpinner>
+        ) : (
+          <ProductList>
+            {products.map(product => (
+              <li key={product.id}>
+                <img src={product.image} alt={product.title} />
+                <strong>{product.title}</strong>
+                <span>{product.formattedPrice}</span>
 
-            <AddButton
-              type="button"
-              loading-data={loading[product.id]}
-              onClick={() => this.handleAddToCart(product.id)}
-            >
-              <div>
-                {loading[product.id] ? (
-                  <FaSpinner className="spinner" size={16} color="#fff" />
-                ) : (
-                  <>
-                    <MdAddShoppingCart size={16} color="#fff" />{' '}
-                    <span>{amount[product.id] || 0}</span>
-                  </>
-                )}
-              </div>
-              <span>ADICIONAR AO CARRINHO</span>
-            </AddButton>
-          </li>
-        ))}
-      </ProductList>
+                <AddButton
+                  type="button"
+                  loading-data={loadingProduct[product.id]}
+                  onClick={() => this.handleAddToCart(product.id)}
+                >
+                  <div>
+                    {loadingProduct[product.id] ? (
+                      <FaSpinner className="spinner" size={16} color="#fff" />
+                    ) : (
+                      <>
+                        <MdAddShoppingCart size={16} color="#fff" />{' '}
+                        <span>{amount[product.id] || 0}</span>
+                      </>
+                    )}
+                  </div>
+                  <span>ADICIONAR AO CARRINHO</span>
+                </AddButton>
+              </li>
+            ))}
+          </ProductList>
+        )}
+      </>
     );
   }
 }
@@ -73,7 +82,7 @@ const mapStateToProps = state => ({
     amount[product.id] = product.amount;
     return amount;
   }, {}),
-  loading: state.cart.loading.reduce((loading, item) => {
+  loadingProduct: state.cart.loading.reduce((loading, item) => {
     loading[item.id] = item.status;
     return loading;
   }, {}),

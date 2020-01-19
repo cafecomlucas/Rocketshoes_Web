@@ -26,6 +26,10 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
 
+  html, body {
+    min-height:101%;
+  }
+
   body,
   input,
   button {

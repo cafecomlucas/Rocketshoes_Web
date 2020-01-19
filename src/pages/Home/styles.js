@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
+export const ProductsSpinner = styled.div`
+  width: 100%;
+  text-align: center;
+  padding-top: 48px;
+`;
+
 export const ProductList = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
