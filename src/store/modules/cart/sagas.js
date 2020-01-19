@@ -49,6 +49,7 @@ function* addToCart(action) {
 function* updateAmount(action) {
   const { id, amount: nextAmount } = action;
   if (nextAmount <= 0) return;
+  yield put(updateLoading(id, true));
 
   const {
     data: { amount: stockAmount },
@@ -56,9 +57,11 @@ function* updateAmount(action) {
 
   if (nextAmount > stockAmount) {
     toast.error('Quantidade solicitada indisponível');
+    yield put(updateLoading(id, false));
     return;
   }
   yield put(updateAmountSuccess(id, nextAmount));
+  yield put(updateLoading(id, false));
 }
 
 export default all([

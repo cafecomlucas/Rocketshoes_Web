@@ -79,7 +79,9 @@ export const Container = styled.div`
   }
 `;
 
-export const ProductTable = styled.table`
+export const ProductTable = styled.table.attrs(props => ({
+  disabled: props['data-loading'],
+}))`
   width: 100%;
   thead th {
     color: #999;
@@ -89,10 +91,11 @@ export const ProductTable = styled.table`
       text-align: center;
     }
   }
+`;
 
-  tbody tr {
-    height: 118px;
-  }
+export const ProductLine = styled.tr`
+  opacity: ${props => (props['data-loading'] ? 0.5 : 1)};
+  height: 118px;
 
   tbody td {
     color: #000;
@@ -159,6 +162,13 @@ export const ProductTable = styled.table`
     background: none;
     border: 0;
     padding: 6px;
+    &[disabled] {
+      cursor: default;
+      opacity: 0.6;
+      svg {
+        color: #a7a7a7;
+      }
+    }
     @media screen and (max-width: 640px) {
       &:first-child {
         order: 3;
@@ -169,7 +179,6 @@ export const ProductTable = styled.table`
     }
   }
 `;
-
 export const Total = styled.div`
   display: flex;
   align-items: baseline;

@@ -13,13 +13,20 @@ import {
   ContainerNoProducts,
   ContainerTable,
   ProductTable,
+  ProductLine,
   Total,
 } from './styles';
 
 import * as CartActions from '../../store/modules/cart/actions';
 import { formatPrice } from '../../util/format';
 
-function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
+function Cart({
+  cart,
+  loadingProduct,
+  removeFromCart,
+  updateAmountRequest,
+  total,
+}) {
   function increment(product) {
     updateAmountRequest(product.id, product.amount + 1);
   }
@@ -52,7 +59,10 @@ function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
               </thead>
               <tbody>
                 {cart.map(product => (
-                  <tr key={product.id}>
+                  <ProductLine
+                    key={product.id}
+                    data-loading={loadingProduct[product.id]}
+                  >
                     <td>
                       <img src={product.image} alt={product.title} />
                     </td>
@@ -63,6 +73,7 @@ function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
                     <td>
                       <div>
                         <button
+                          disabled={loadingProduct[product.id]}
                           type="button"
                           onClick={() => decrement(product)}
                         >
@@ -70,6 +81,7 @@ function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
                         </button>
                         <input type="number" disabled value={product.amount} />
                         <button
+                          disabled={loadingProduct[product.id]}
                           type="button"
                           onClick={() => increment(product)}
                         >
@@ -88,7 +100,7 @@ function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
                         <MdDelete size={20} color="#7159c1" />
                       </button>
                     </td>
-                  </tr>
+                  </ProductLine>
                 ))}
               </tbody>
             </ProductTable>
@@ -117,6 +129,10 @@ const mapStateToProps = state => ({
       0
     )
   ),
+  loadingProduct: state.cart.loading.reduce((loading, item) => {
+    loading[item.id] = item.status;
+    return loading;
+  }, {}),
 });
 
 const mapDispatchToProps = dispatch =>
