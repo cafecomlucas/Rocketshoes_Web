@@ -1,7 +1,8 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import history from './services/history';
 
 import './config/ReactotronConfig';
 
@@ -18,10 +19,10 @@ function App() {
     <Provider store={store}>
       <GlobalStyle />
       <ToastContainer autoClose={2000} />
-      <BrowserRouter>
+      <Router history={history}>
         <Header />
         <Routes />
-      </BrowserRouter>
+      </Router>
     </Provider>
   );
 }

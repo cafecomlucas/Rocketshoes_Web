@@ -548,3 +548,36 @@ No Cart SAGA (arquivo `cart/sagas.js`) utilizamos o método `toast.error` para e
 Neste ponto da aplicação as mensagens de erros são exibidas toda vez que o usuário tenta adicionar uma quantidade maior do que a existente no estoque.
 
 ---
+
+## Redirecionando da Home pra Cart ao adicionar produto | Configurando json-server
+
+### Redirecionamento
+
+Adicionamos a regra de redirecionar o usuário para a página `/cart` após a adição de um produto inexistente no carrinho e para isso foi necessário configurar a navegação da aplicação de uma forma diferente.
+
+Ao ativar a chamada da função `handleAddToCart` na página Home não é possível manipular a navegação diretamente após a chamada da função `addToCartRequest` através do comando `this.props.history.push('/cart');`, por exemplo. O redirecionamento funcionaria, mas como a função `addToCartRequest` retorna um objeto (e não uma Promisse), não é possível utilizar um `await` para esperar os códigos assíncronos terminarem de executar antes do redirecionamento.
+
+Como precisamos redirecionar após a execução de um SAGA, podemos fazer esse redirecionamento dentro do próprio Cart SAGA. Dentro do SAGA só não temos acesso ao objeto history disponibilizado pelo React através das props, então é necessário manipular o histórico de outra maneira.
+
+Optamos por configurar o roteamento da aplicação de uma maneira onde o React Router DOM ainda consiga ouvir a navegação feita através do histórico. Para fazer isso, instalamos uma biblioteca do ReactTraining que facilita a manipulação do histórico através da API do Browser chamada [history](https://github.com/ReactTraining/history/):
+
+```bash
+yarn add history
+```
+Criamos o arquivo `services/history.js`, onde criamos e exportamos um objeto "BrowserHistory" para ser utilizado onde for necessário e que pode ser passado como referência pro React Router DOM conseguir ouvir qualquer manipulação feita no histórico. 
+
+Foi necessário modificar o `src/App.js`, para, ao invés de importar o `BrowserRouter`, importar apenas o componente `Router` e passar para ele via propriedade `history` a referência do objeto "BrowserHistory" importado de `services/history.js`.
+
+Modificamos o Cart SAGA, importando e utilizando o método `push` do `history` logo após a execução da função/ACTION `addToCartSuccess`.
+
+### Simulando delay na API do json-server
+
+Para testar se a aplicação aguarda o término da chamada a API antes do redirecionamento, reinicializamos o json-server com a opção `-d 2000` para criar um delay de 2 segundos em cada chamada:
+
+```bash
+$ json-server server.json -p 3333 -d 2000
+```
+
+Neste ponto a aplicação redireciona o usuário para a página `/cart` quando um produto específico é adicionado ao carrinho pela primeira vez.
+
+---

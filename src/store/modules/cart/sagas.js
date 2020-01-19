@@ -2,6 +2,7 @@ import { call, select, put, all, takeLatest } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
+import history from '../../../services/history';
 
 import { addToCartSuccess, updateAmountSuccess } from './actions';
 
@@ -33,6 +34,7 @@ function* addToCart(action) {
       amount: 1,
     };
     yield put(addToCartSuccess(product));
+    history.push('/cart');
   }
 }
 
