@@ -581,3 +581,9 @@ $ json-server server.json -p 3333 -d 2000
 Neste ponto a aplicação redireciona o usuário para a página `/cart` quando um produto específico é adicionado ao carrinho pela primeira vez.
 
 ---
+
+## Home | Refatoração: Convertendo para componente de função / Utilizando Hooks
+
+Modificamos o componente `Home` convertendo-o para um componente de função, alteramos a estrutura dos dados do estado (`products` e `loadingProducts`) para utilização de hooks com o `useState` e alteramos a estrutura do ciclo de vida para utilização de hooks com o `useEffect` (como nesse caso o `componentDidMount` é um método assíncrono, foi necessário criar uma outra função com async e chamá-la ao final).
+
+---
