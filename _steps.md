@@ -582,6 +582,18 @@ Neste ponto a aplicação redireciona o usuário para a página `/cart` quando u
 
 ---
 
+## Configurando plugin do React Hooks pro ESLint
+
+Instalamos o plugin do React Hooks pro ESLint:
+
+```bash
+yarn add eslint-plugin-react-hooks -D
+```
+
+No arquivo .eslintrc.js adicionamos o novo plugin na propriedade plugins e setamos as regras para que o editor indique possíveis erros na propriedade rules.
+
+---
+
 ## Home | Refatoração: Convertendo para componente de função / Utilizando Hooks
 
 Modificamos o componente `Home` convertendo-o para um componente de função, alteramos a estrutura dos dados do estado (`products` e `loadingProducts`) para utilização de hooks com o `useState` e alteramos a estrutura do ciclo de vida para utilização de hooks com o `useEffect` (como nesse caso o `componentDidMount` é um método assíncrono, foi necessário criar uma outra função com async e chamá-la ao final).
