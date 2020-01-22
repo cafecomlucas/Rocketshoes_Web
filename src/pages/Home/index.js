@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
 import { FaSpinner } from 'react-icons/fa';
 import { bindActionCreators } from 'redux';
@@ -10,71 +10,66 @@ import { formatPrice } from '../../util/format';
 
 import * as CartActions from '../../store/modules/cart/actions';
 
-class Home extends Component {
-  state = {
-    products: [],
-    loadingProducts: true,
-  };
+function Home({ amount, loadingProduct, addToCartRequest }) {
+  const [products, setProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
-  async componentDidMount() {
-    const response = await api.get('products');
+  useEffect(() => {
+    async function getProducts() {
+      const response = await api.get('products');
 
-    const products = response.data.map(product => ({
-      ...product,
-      formattedPrice: formatPrice(product.price),
-    }));
+      const productsData = response.data.map(product => ({
+        ...product,
+        formattedPrice: formatPrice(product.price),
+      }));
 
-    this.setState({ products, loadingProducts: false });
-  }
+      setProducts(productsData);
+      setLoadingProducts(false);
+    }
+    getProducts();
+  }, []);
 
-  handleAddToCart(id) {
-    const { addToCartRequest } = this.props;
-
+  function handleAddToCart(id) {
     addToCartRequest(id);
   }
 
-  render() {
-    const { products, loadingProducts } = this.state;
-    const { amount, loadingProduct } = this.props;
+  return (
+    <>
+      {loadingProducts ? (
+        <ProductsSpinner>
+          <FaSpinner className="spinner" size={48} color="#fff" />
+        </ProductsSpinner>
+      ) : (
+        <ProductList>
+          {products.map(product => (
+            <li key={product.id}>
+              <img src={product.image} alt={product.title} />
+              <strong>{product.title}</strong>
+              <span>{product.formattedPrice}</span>
 
-    return (
-      <>
-        {loadingProducts ? (
-          <ProductsSpinner>
-            <FaSpinner className="spinner" size={48} color="#fff" />
-          </ProductsSpinner>
-        ) : (
-          <ProductList>
-            {products.map(product => (
-              <li key={product.id}>
-                <img src={product.image} alt={product.title} />
-                <strong>{product.title}</strong>
-                <span>{product.formattedPrice}</span>
-
-                <AddButton
-                  type="button"
-                  loading-data={loadingProduct[product.id]}
-                  onClick={() => this.handleAddToCart(product.id)}
-                >
-                  <div>
-                    {loadingProduct[product.id] ? (
-                      <FaSpinner className="spinner" size={16} color="#fff" />
-                    ) : (
-                      <>
-                        <MdAddShoppingCart size={16} color="#fff" />{' '}
-                        <span>{amount[product.id] || 0}</span>
-                      </>
-                    )}
-                  </div>
-                  <span>ADICIONAR AO CARRINHO</span>
-                </AddButton>
-              </li>
-            ))}
-          </ProductList>
-        )}
-      </>
-    );
-  }
+              <AddButton
+                type="button"
+                loading-data={loadingProduct[product.id]}
+                onClick={() => handleAddToCart(product.id)}
+              >
+                <div>
+                  {loadingProduct[product.id] ? (
+                    <FaSpinner className="spinner" size={16} color="#fff" />
+                  ) : (
+                    <>
+                      <MdAddShoppingCart size={16} color="#fff" />{' '}
+                      <span>{amount[product.id] || 0}</span>
+                    </>
+                  )}
+                </div>
+                <span>ADICIONAR AO CARRINHO</span>
+              </AddButton>
+            </li>
+          ))}
+        </ProductList>
+      )}
+    </>
+  );
 }
 
 const mapStateToProps = state => ({
