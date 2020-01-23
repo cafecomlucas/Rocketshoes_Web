@@ -617,3 +617,9 @@ Modificamos o componente `Home` adicionando um hook do React Redux. Utilizamos o
 Modificamos o componente `Home` adicionando um hook do React Redux. Utilizamos o `useDispatch` do React Redux dentro do componente para disparar a ACTION `addToCartRequest` diretamente. Removemos a declaração do `mapDispatchToProps`, a importação do método `bindActionCreators`, o método `connect` e exportamos o componente diretamente.
 
 ---
+
+## Cart | Refatoração: Utilizando Hook useSelector do React Redux
+
+Modificamos o componente `Cart` adicionando um hook do React Redux. Utilizamos o `useSelector` do React Redux dentro do componente para disponibilizar os dados globais `cartProducts` (produtos do carrinho), `productsTotal` (total dos produtos do carrinho) e `loadingProduct` (status de carregamento de cada produto). Removemos a declaração do `mapStateToProps` e passamos um `null` no primeiro parâmetro do método `connect`.
+
+---

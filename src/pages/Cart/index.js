@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import {
   MdAddCircleOutline,
   MdRemoveCircleOutline,
@@ -20,24 +20,38 @@ import {
 import * as CartActions from '../../store/modules/cart/actions';
 import { formatPrice } from '../../util/format';
 
-function Cart({
-  cart,
-  loadingProduct,
-  removeFromCart,
-  updateAmountRequest,
-  total,
-}) {
+function Cart({ removeFromCart, updateAmountRequest }) {
+  const cartProducts = useSelector(state =>
+    state.cart.products.map(product => ({
+      ...product,
+      formattedSubTotal: formatPrice(product.price * product.amount),
+    }))
+  );
+  const productsTotal = useSelector(state =>
+    formatPrice(
+      state.cart.products.reduce(
+        (sumTotal, product) => sumTotal + product.price * product.amount,
+        0
+      )
+    )
+  );
+  const loadingProduct = useSelector(state =>
+    state.cart.loading.reduce((loading, item) => {
+      loading[item.id] = item.status;
+      return loading;
+    }, {})
+  );
+
   function increment(product) {
     updateAmountRequest(product.id, product.amount + 1);
   }
-
   function decrement(product) {
     updateAmountRequest(product.id, product.amount - 1);
   }
 
   return (
     <Container>
-      {cart.length <= 0 ? (
+      {cartProducts.length <= 0 ? (
         <ContainerNoProducts>
           <MdShoppingBasket size={64} color="#333" />
           <h2>Ops!</h2>
@@ -58,7 +72,7 @@ function Cart({
                 </tr>
               </thead>
               <tbody>
-                {cart.map(product => (
+                {cartProducts.map(product => (
                   <ProductLine
                     key={product.id}
                     data-loading={loadingProduct[product.id]}
@@ -109,7 +123,7 @@ function Cart({
             <button type="button">Finalizar pedido</button>
             <Total>
               <span>TOTAL</span>
-              <strong>{total}</strong>
+              <strong>{productsTotal}</strong>
             </Total>
           </footer>
         </>
@@ -118,24 +132,7 @@ function Cart({
   );
 }
 
-const mapStateToProps = state => ({
-  cart: state.cart.products.map(product => ({
-    ...product,
-    formattedSubTotal: formatPrice(product.price * product.amount),
-  })),
-  total: formatPrice(
-    state.cart.products.reduce(
-      (total, product) => total + product.price * product.amount,
-      0
-    )
-  ),
-  loadingProduct: state.cart.loading.reduce((loading, item) => {
-    loading[item.id] = item.status;
-    return loading;
-  }, {}),
-});
-
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(null, mapDispatchToProps)(Cart);
