@@ -97,7 +97,7 @@ export default function Cart() {
                           type="button"
                           onClick={() => handleDecrement(product)}
                         >
-                          <MdRemoveCircleOutline size={20} color="#7159c1" />
+                          <MdRemoveCircleOutline size={20} color="#4f86bd" />
                         </button>
                         <input type="number" disabled value={product.amount} />
                         <button
@@ -105,7 +105,7 @@ export default function Cart() {
                           type="button"
                           onClick={() => handleIncrement(product)}
                         >
-                          <MdAddCircleOutline size={20} color="#7159c1" />
+                          <MdAddCircleOutline size={20} color="#4f86bd" />
                         </button>
                       </div>
                     </td>
@@ -117,7 +117,7 @@ export default function Cart() {
                         type="button"
                         onClick={() => handleDelete(product.id)}
                       >
-                        <MdDelete size={20} color="#7159c1" />
+                        <MdDelete size={20} color="#4f86bd" />
                       </button>
                     </td>
                   </ProductLine>

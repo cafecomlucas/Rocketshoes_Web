@@ -5,13 +5,13 @@ export const ContainerNoProducts = styled.div`
   padding-bottom: 10px;
   text-align: center;
   h2 {
-    color: #333;
+    color: #1a1a1a;
     font-size: 32px;
     line-height: 35px;
     padding: 20px 0 5px 0;
   }
   h3 {
-    color: #333;
+    color: #1a1a1a;
     font-size: 22px;
     line-height: 25px;
     padding: 0 0 40px 0;
@@ -20,8 +20,8 @@ export const ContainerNoProducts = styled.div`
   a {
     display: inline-block;
     margin-top: 20px;
-    background: #7159c1;
-    color: #fff;
+    background: #4f86bd;
+    color: #e6e6e6;
     border: 0;
     border-radius: 4px;
     padding: 12px 20px;
@@ -31,7 +31,7 @@ export const ContainerNoProducts = styled.div`
     transition: background 0.2s;
     margin: 0 auto;
     &:hover {
-      background: ${darken(0.1, '#7159c1')};
+      background: ${darken(0.2, '#4f86bd')};
     }
   }
 `;
@@ -59,17 +59,15 @@ export const Container = styled.div`
     }
 
     button {
-      background: #7159c1;
-      color: #fff;
+      background: #bdbdbd;
+      color: #e6e6e6;
       border: 0;
       border-radius: 4px;
       padding: 12px 20px;
       font-weight: bold;
       text-transform: uppercase;
       transition: background 0.2s;
-      &:hover {
-        background: ${darken(0.1, '#7159c1')};
-      }
+      cursor: default;
 
       @media screen and (max-width: 480px) {
         order: 1;
@@ -82,7 +80,7 @@ export const Container = styled.div`
 export const ProductTable = styled.table`
   width: 100%;
   thead th {
-    color: #999;
+    color: #808080;
     text-align: left;
     padding: 6px;
     font-size: 16px;
@@ -93,9 +91,9 @@ export const ProductTable = styled.table`
   }
 
   tbody td {
-    color: #000;
+    color: #1a1a1a;
     padding: 6px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #bdbdbd;
     &:first-child {
       text-align: center;
     }
@@ -107,7 +105,7 @@ export const ProductTable = styled.table`
 `;
 
 export const ProductLine = styled.tr`
-  opacity: ${props => (props['data-loading'] ? 0.5 : 1)};
+  opacity: ${props => (props['data-loading'] ? 0.6 : 1)};
   height: 118px;
 
   img {
@@ -115,11 +113,11 @@ export const ProductLine = styled.tr`
     max-width: 100px;
     min-width: 60px;
     min-height: 60px;
-    background: #f7f7f7;
+    background: #e6e6e6;
   }
 
   strong {
-    color: #333;
+    color: #1a1a1a;
     display: block;
     @media screen and (max-width: 480px) {
       font-size: 12px;
@@ -141,9 +139,9 @@ export const ProductLine = styled.tr`
       flex-direction: column;
     }
     input {
-      border: 1px solid #ccc;
+      border: 1px solid #bdbdbd;
       border-radius: 4px;
-      color: #666;
+      color: #808080;
       padding: 6px 0;
       width: 100%;
       min-width: 25px;
@@ -167,7 +165,7 @@ export const ProductLine = styled.tr`
       cursor: default;
       opacity: 0.6;
       svg {
-        color: #a7a7a7;
+        color: #bdbdbd !important;
       }
     }
     @media screen and (max-width: 640px) {
@@ -187,7 +185,7 @@ export const Total = styled.div`
   text-align: right;
 
   span {
-    color: #999;
+    color: #808080;
     font-weight: bold;
   }
 

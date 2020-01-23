@@ -51,7 +51,7 @@ export default function Home() {
     <>
       {loadingProducts ? (
         <ProductsSpinner>
-          <FaSpinner className="spinner" size={48} color="#fff" />
+          <FaSpinner className="spinner" size={48} color="#e6e6e6" />
         </ProductsSpinner>
       ) : (
         <ProductList>
@@ -68,10 +68,10 @@ export default function Home() {
               >
                 <div>
                   {loadingProduct[product.id] ? (
-                    <FaSpinner className="spinner" size={16} color="#fff" />
+                    <FaSpinner className="spinner" size={16} color="#e6e6e6" />
                   ) : (
                     <>
-                      <MdAddShoppingCart size={16} color="#fff" />{' '}
+                      <MdAddShoppingCart size={16} color="#e6e6e6" />{' '}
                       <span>{amount[product.id] || 0}</span>
                     </>
                   )}

@@ -18,7 +18,11 @@ function App() {
   return (
     <Provider store={store}>
       <GlobalStyle />
-      <ToastContainer autoClose={2000} />
+      <ToastContainer
+        autoClose={2000}
+        className="toast-container"
+        toastClassName="dark-toast"
+      />
       <Router history={history}>
         <Header />
         <Routes />

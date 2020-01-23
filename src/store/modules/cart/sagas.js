@@ -27,7 +27,7 @@ function* addToCart(action) {
   const nextAmount = currentAmount + 1;
 
   if (nextAmount > stockAmount) {
-    toast.error('Quantidade solicitada indisponível');
+    toast.error('Quantidade indisponível no estoque');
     yield put(updateLoading(id, false));
     return;
   }
@@ -56,7 +56,7 @@ function* updateAmount(action) {
   } = yield call(api.get, `/stock/${id}`);
 
   if (nextAmount > stockAmount) {
-    toast.error('Quantidade solicitada indisponível');
+    toast.error('Quantidade indisponível no estoque');
     yield put(updateLoading(id, false));
     return;
   }

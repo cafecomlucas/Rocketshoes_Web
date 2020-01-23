@@ -28,7 +28,7 @@ export const ProductList = styled.ul`
     min-width: 122px;
     justify-content: flex-end;
     > img {
-      background: #f7f7f7;
+      background: #e6e6e6;
       min-width: 221px;
       min-height: 221px;
       align-self: center;
@@ -39,13 +39,13 @@ export const ProductList = styled.ul`
       font-size: 16px;
       line-height: 20px;
       margin-top: 5px;
-      color: #333;
+      color: #424242;
     }
     > span {
       font-size: 21px;
       font-weight: bold;
       margin: 5px 0 20px;
-      color: #000;
+      color: #1a1a1a;
     }
     @media screen and (max-width: 768px) {
       img {
@@ -67,7 +67,7 @@ export const AddButton = styled.button.attrs(props => ({
   disabled: props['loading-data'],
 }))`
   display: flex;
-  background: #7159c1;
+  background: #4f86bd;
   color: #fff;
   border: 0;
   border-radius: 4px;
@@ -76,13 +76,13 @@ export const AddButton = styled.button.attrs(props => ({
   font-size: 14px;
 
   &:hover {
-    background: ${darken(0.1, '#7159c1')};
+    background: ${darken(0.2, '#4f86bd')};
     transition: background 0.2s;
   }
 
   &[disabled] {
     cursor: not-allowed;
-    background: #a7a7a7;
+    background: #424242;
     opacity: 0.6;
   }
 

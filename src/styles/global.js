@@ -22,7 +22,7 @@ export default createGlobalStyle`
 
   body {
     background: #191920 url(${background}) no-repeat center top;
-    color: #fff;
+    color: #e6e6e6;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -49,5 +49,11 @@ export default createGlobalStyle`
 
   .spinner{
     animation: ${rotate} 800ms linear infinite;
+  }
+
+  .toast-container .dark-toast {
+    background: #bd4f4f;
+    border-radius:4px;
+    text-align:center;
   }
 `;
