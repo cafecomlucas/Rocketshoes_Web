@@ -594,8 +594,14 @@ No arquivo .eslintrc.js adicionamos o novo plugin na propriedade plugins e setam
 
 ---
 
-## Home | Refatoração: Convertendo para componente de função / Utilizando Hooks
+## Home | Refatoração: Convertendo para componente de função / Utilizando Hooks useState e useEffect 
 
 Modificamos o componente `Home` convertendo-o para um componente de função, alteramos a estrutura dos dados do estado (`products` e `loadingProducts`) para utilização de hooks com o `useState` e alteramos a estrutura do ciclo de vida para utilização de hooks com o `useEffect` (como nesse caso o `componentDidMount` é um método assíncrono, foi necessário criar uma outra função com async e chamá-la ao final).
+
+---
+
+## Header | Refatoração: Utilizando Hook useSelector do React Redux
+
+Modificamos o componente `Header` para utilização de hooks. Utilizamos o `useSelector` do React Redux dentro do componente para disponibilizar o dado global de `cartSize`. Removemos o método `connect`e exportamos o componente diretamente.
 
 ---
