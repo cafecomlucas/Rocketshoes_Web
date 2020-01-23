@@ -572,10 +572,10 @@ Modificamos o Cart SAGA, importando e utilizando o método `push` do `history` l
 
 ### Simulando delay na API do json-server
 
-Para testar se a aplicação aguarda o término da chamada a API antes do redirecionamento, reinicializamos o json-server com a opção `-d 2000` para criar um delay de 2 segundos em cada chamada:
+Para testar se a aplicação aguarda o término da chamada a API antes do redirecionamento, reinicializamos o json-server com a opção `-d 400` para criar um delay de 400 milisegundos em cada chamada:
 
 ```bash
-$ json-server server.json -p 3333 -d 2000
+$ json-server server.json -p 3333 -d 400
 ```
 
 Neste ponto a aplicação redireciona o usuário para a página `/cart` quando um produto específico é adicionado ao carrinho pela primeira vez.
@@ -608,6 +608,12 @@ Modificamos o componente `Header` para utilização de hooks. Utilizamos o `useS
 
 ## Home | Refatoração: Utilizando Hook useSelector do React Redux
 
-Modificamos o componente `Home` para adicionar um hook do React Redux. Utilizamos o `useSelector` do React Redux dentro do componente para disponibilizar os dados globais `amount` (quantidade de um produto específico) e `loadingProduct` (status de carregamento de um produto específico). Removemos a declaração do `mapStateToProps` e passamos um `null` no primeiro parâmetro do método `connect`.
+Modificamos o componente `Home` adicionando um hook do React Redux. Utilizamos o `useSelector` do React Redux dentro do componente para disponibilizar os dados globais `amount` (quantidade de um produto específico) e `loadingProduct` (status de carregamento de um produto específico). Removemos a declaração do `mapStateToProps` e passamos um `null` no primeiro parâmetro do método `connect`.
+
+---
+
+## Home | Refatoração: Utilizando Hook useDispatch do React Redux
+
+Modificamos o componente `Home` adicionando um hook do React Redux. Utilizamos o `useDispatch` do React Redux dentro do componente para disparar a ACTION `addToCartRequest` diretamente. Removemos a declaração do `mapDispatchToProps`, a importação do método `bindActionCreators`, o método `connect` e exportamos o componente diretamente.
 
 ---
