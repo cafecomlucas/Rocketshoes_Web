@@ -605,3 +605,9 @@ Modificamos o componente `Home` convertendo-o para um componente de função, al
 Modificamos o componente `Header` para utilização de hooks. Utilizamos o `useSelector` do React Redux dentro do componente para disponibilizar o dado global de `cartSize`. Removemos o método `connect`e exportamos o componente diretamente.
 
 ---
+
+## Home | Refatoração: Utilizando Hook useSelector do React Redux
+
+Modificamos o componente `Home` para adicionar um hook do React Redux. Utilizamos o `useSelector` do React Redux dentro do componente para disponibilizar os dados globais `amount` (quantidade de um produto específico) e `loadingProduct` (status de carregamento de um produto específico). Removemos a declaração do `mapStateToProps` e passamos um `null` no primeiro parâmetro do método `connect`.
+
+---
