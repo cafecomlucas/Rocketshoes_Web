@@ -41,7 +41,7 @@ function* addToCart(action) {
       amount: 1,
     };
     yield put(addToCartSuccess(product));
-    history.push('/cart');
+    // history.push('/cart');
   }
   yield put(updateLoading(id, false));
 }
