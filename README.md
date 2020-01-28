@@ -4,6 +4,8 @@ Aplicação Front-End responsiva para um e-commerce de venda de tênis. Feita co
 
 Passo a passo documentado em: https://github.com/cafecomlucas/Rocketshoes/blob/master/_steps.md
 
+![Demonstração - Busca na API, demonstra o CRUD e testa responsividade](.github/reactjs_ecommerce_crud_redux_saga_rocketshoes.gif)
+
 ---
 
 ## Como iniciar
@@ -46,6 +48,7 @@ yarn dev
 - Exibição da quantidade total de produtos do carrinho no cabeçalho;
 - Exibição da quantidade individual em cada produto no componente `Home`;
 - Listagem de produtos do carrinho no componente `Cart` (rota `/cart`), com imagem, descrição, quantidade, subtotal em cada um;
-- Utilização do Redux Saga para fazer chamada a API antes de adicionar produto ao carrinho;
+- Utilização do Redux Saga para fazer chamada a API para buscar mais detalhes do produto antes de adicioná-lo ao carrinho;
 - Utilização do Redux Saga para checar estoque antes de adicionar produto ao carrinho;
-- Exibição de mensagens de erro após as validações, quando for o caso.
+- Utilização do Redux Saga para feedback ao usuário mostrando ícones e alterando estilizações quando a aplicação estiver carregando;
+- Exibição de mensagem de erro ao constatar que não existem mais produtos disponíveis no estoque após busca na API.
