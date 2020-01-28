@@ -1,6 +1,9 @@
 import { produce } from 'immer';
 
-export default function cart(state = { products: [], loading: [] }, action) {
+export default function cart(
+  state = { products: [], loading: [], newItemStatus: false },
+  action
+) {
   switch (action.type) {
     case '@cart/ADD_SUCCESS':
       return produce(state, draft => {
@@ -32,6 +35,11 @@ export default function cart(state = { products: [], loading: [] }, action) {
         } else {
           draft.loading.push({ id: action.id, status: action.status });
         }
+      });
+    }
+    case '@cart/UPDATE_NEW_ITEM_STATUS': {
+      return produce(state, draft => {
+        draft.newItemStatus = action.status;
       });
     }
     default:

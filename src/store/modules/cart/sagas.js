@@ -2,18 +2,19 @@ import { call, select, put, all, takeLatest } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
-import history from '../../../services/history';
 
 import {
   addToCartSuccess,
   updateAmountSuccess,
   updateLoading,
+  updateNewItem,
 } from './actions';
 
 function* addToCart(action) {
   const { id } = action;
 
   yield put(updateLoading(id, true));
+  yield put(updateNewItem(false));
 
   const productExists = yield select(state =>
     state.cart.products.find(p => p.id === id)
@@ -41,6 +42,7 @@ function* addToCart(action) {
       amount: 1,
     };
     yield put(addToCartSuccess(product));
+    yield put(updateNewItem(true));
     // history.push('/cart');
   }
   yield put(updateLoading(id, false));

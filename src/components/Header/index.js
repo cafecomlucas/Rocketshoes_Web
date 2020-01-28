@@ -9,13 +9,14 @@ import logo from '../../assets/images/rocketshoes-logo.svg';
 
 export default function Header() {
   const cartSize = useSelector(state => state.cart.products.length);
+  const newItemStatus = useSelector(state => state.cart.newItemStatus);
 
   return (
     <Container>
       <Link to="/">
         <img src={logo} alt="Ir para o início" />
       </Link>
-      <Cart to="/cart">
+      <Cart to="/cart" newItem={newItemStatus}>
         <div>
           <strong>Meu carrinho</strong>
           <span>{cartSize} itens</span>

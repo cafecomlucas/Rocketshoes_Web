@@ -1,5 +1,17 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
+
+const blinkColor = keyframes`
+  from{
+    opacity:0;
+  }
+  10%{
+    opacity:0;
+    color:#fff;
+    text-shadow: 0 0 20px #fff;
+  }
+  11%{opacity:1;}
+`;
 
 export const Container = styled.header`
   display: flex;
@@ -19,6 +31,16 @@ export const Cart = styled(Link)`
   transition: opacity 0.2s;
   &:hover {
     opacity: 0.7;
+  }
+
+  strong,
+  span,
+  svg {
+    ${props =>
+      props.newItem &&
+      css`
+        animation: ${blinkColor} ease-out 1200ms;
+      `}
   }
 
   @media screen and (max-width: 480px) {

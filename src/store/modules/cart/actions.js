@@ -42,3 +42,10 @@ export function updateLoading(id, status) {
     status,
   };
 }
+
+export function updateNewItem(status) {
+  return {
+    type: '@cart/UPDATE_NEW_ITEM_STATUS',
+    status,
+  };
+}
