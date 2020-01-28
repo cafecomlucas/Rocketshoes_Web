@@ -8,6 +8,10 @@ Passo a passo documentado em: https://github.com/cafecomlucas/Rocketshoes/blob/m
 
 ## Como iniciar
 
+### Versão online
+
+Acesse o endereço [rocketshoesapp.herokuapp.com](https://rocketshoesapp.herokuapp.com/)
+
 ### Localmente
 
 Clone o repositório, acesse o diretório, instale as dependências e inicie a REST API:
