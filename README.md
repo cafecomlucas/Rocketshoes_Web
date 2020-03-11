@@ -21,8 +21,8 @@ Acesse o endereço [rocketshoesapp.herokuapp.com](https://rocketshoesapp.herokua
 Clone o repositório, acesse o diretório, instale as dependências e inicie a aplicação:
 
 ```bash
-git clone https://github.com/cafecomlucas/Rocketshoes.git
-cd Rocketshoes
+git clone https://github.com/cafecomlucas/Rocketshoes_Web.git
+cd Rocketshoes_Web
 yarn
 yarn android
 ```
