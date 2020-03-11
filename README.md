@@ -4,7 +4,7 @@ Aplicação Front-End responsiva para um e-commerce de venda de tênis. Feita co
 
 Essa aplicação consome o mesmo Back-end da [versão Mobile](https://github.com/cafecomlucas/Rocketshoes_Mobile).
 
-Passo a passo documentado em: https://github.com/cafecomlucas/Rocketshoes/blob/master/_steps.md
+Passo a passo documentado em: https://github.com/cafecomlucas/Rocketshoes_Web/blob/master/_steps.md
 
 ![Demonstração - Busca na API, demonstra o CRUD e testa responsividade](.github/reactjs_ecommerce_crud_redux_saga_rocketshoes.gif)
 
