@@ -24,7 +24,7 @@ Clone o repositório, acesse o diretório, instale as dependências e inicie a a
 git clone https://github.com/cafecomlucas/Rocketshoes_Web.git
 cd Rocketshoes_Web
 yarn
-yarn android
+yarn dev
 ```
 
 (é necessário estar online para consumir a REST API)
