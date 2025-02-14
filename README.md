@@ -14,7 +14,7 @@ Passo a passo documentado em: https://github.com/cafecomlucas/Rocketshoes_Web/bl
 
 ### Versão online
 
-Acesse o endereço [rocketshoesapp.herokuapp.com](https://rocketshoesapp.herokuapp.com/)
+Acesse o endereço [rocketshoes-web.vercel.app](https://rocketshoes-web.vercel.app/)
 
 ### Localmente
 
@@ -33,8 +33,8 @@ yarn dev
 
 ## Rotas da REST API fake
 
-- Produtos: [rocketshoesapi.herokuapp.com/products](https://rocketshoesapi.herokuapp.com/products)
-- Estoque: [rocketshoesapi.herokuapp.com/stock](https://rocketshoesapi.herokuapp.com/stock)
+- Produtos: [rocketshoes-api.vercel.app/products](https://rocketshoes-api.vercel.app/products)
+- Estoque: [rocketshoes-api.vercel.app/stock](https://rocketshoes-api.vercel.app/stock)
 
 ---
 
